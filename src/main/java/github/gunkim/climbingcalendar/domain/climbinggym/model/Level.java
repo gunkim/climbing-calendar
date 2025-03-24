@@ -13,7 +13,8 @@ public class Level {
     private final Long id;
     private Long climbingGymId;
     private String color;
-    private String name;
+    private int startGrade;
+    private int endGrade;
     private Instant createdAt;
     private Instant updatedAt;
 }

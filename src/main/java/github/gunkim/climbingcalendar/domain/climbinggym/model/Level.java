@@ -1,4 +1,4 @@
-package github.gunkim.climbingcalendar.domain.rockclimbingwall.model;
+package github.gunkim.climbingcalendar.domain.climbinggym.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

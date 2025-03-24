@@ -9,7 +9,7 @@ import java.time.Instant;
 @Getter
 @Accessors(fluent = true)
 @AllArgsConstructor
-public class RockClimbingWall {
+public class ClimbingGym {
     private final Long id;
     private String name;
     private String address;

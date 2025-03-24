@@ -11,7 +11,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class Level {
     private final Long id;
-    private Long rockClimbingWallId;
+    private Long climbingGymId;
     private String color;
     private String name;
     private Instant createdAt;

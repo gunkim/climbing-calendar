@@ -11,7 +11,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class Clear {
     private final Long id;
-    private Long rockClimbingWallId;
+    private Long climbingGymId;
     private Long LevelId;
     private Long scheduleId;
     private String color;

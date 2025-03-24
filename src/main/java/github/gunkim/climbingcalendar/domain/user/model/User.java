@@ -13,7 +13,7 @@ public class User {
     private final Long id;
     private String email;
     private String name;
-    private String password;
+    private String profileImage;
     private Instant createdAt;
     private Instant updatedAt;
 }

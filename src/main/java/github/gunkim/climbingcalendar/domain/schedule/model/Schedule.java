@@ -12,7 +12,7 @@ import java.time.Instant;
 public class Schedule {
     private final Long id;
     private Long userId;
-    private Long ClimbingGymId;
+    private Long climbingGymId;
     private String title;
     private String memo;
     private Instant scheduleDate;

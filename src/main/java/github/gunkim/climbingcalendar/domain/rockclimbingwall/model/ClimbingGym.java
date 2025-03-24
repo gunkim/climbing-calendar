@@ -13,6 +13,9 @@ public class ClimbingGym {
     private final Long id;
     private String name;
     private String address;
+    private double latitude;
+    private double longitude;
+    private boolean isParkingAvailable;
     private Instant createdAt;
     private Instant updatedAt;
 }

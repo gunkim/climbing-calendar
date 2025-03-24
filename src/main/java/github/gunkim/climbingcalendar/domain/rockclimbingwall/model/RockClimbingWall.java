@@ -12,6 +12,7 @@ import java.time.Instant;
 public class RockClimbingWall {
     private final Long id;
     private String name;
+    private String address;
     private Instant createdAt;
     private Instant updatedAt;
 }

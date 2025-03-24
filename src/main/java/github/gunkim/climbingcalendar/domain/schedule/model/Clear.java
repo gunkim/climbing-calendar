@@ -11,10 +11,8 @@ import java.time.Instant;
 @AllArgsConstructor
 public class Clear {
     private final Long id;
-    private Long climbingGymId;
-    private Long levelId;
     private Long scheduleId;
-    private String color;
+    private Long levelId;
     private int count;
     private Instant createdAt;
     private Instant updatedAt;

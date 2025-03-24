@@ -15,7 +15,7 @@ public class Clear {
     private Long LevelId;
     private Long scheduleId;
     private String color;
-    private int clearCount;
+    private int count;
     private Instant createdAt;
     private Instant updatedAt;
 }

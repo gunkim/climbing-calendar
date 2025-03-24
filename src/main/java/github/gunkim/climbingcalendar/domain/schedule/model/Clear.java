@@ -12,7 +12,7 @@ import java.time.Instant;
 public class Clear {
     private final Long id;
     private Long climbingGymId;
-    private Long LevelId;
+    private Long levelId;
     private Long scheduleId;
     private String color;
     private int count;

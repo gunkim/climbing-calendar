@@ -3,3 +3,9 @@ spring:
     name: climbing-calendar
   jpa:
     open-in-view: false
+    show-sql: true
+  profiles:
+    include: oauth
+
+jwt:
+  secret-key: 12341234123412341234123412341234

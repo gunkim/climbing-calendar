@@ -1,16 +1,21 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.user.entity;
 
+import github.gunkim.climbingcalendar.domain.user.model.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Objects;
 
 @Entity(name = "users")
+@AllArgsConstructor
+@Builder(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
     @Id
@@ -21,6 +26,20 @@ public class UserEntity {
     private String profileImage;
     private Instant createdAt;
     private Instant updatedAt;
+
+    public static UserEntity from(User user) {
+        return UserEntity.builder()
+                .email(user.email())
+                .name(user.name())
+                .profileImage(user.profileImage())
+                .createdAt(user.createdAt())
+                .updatedAt(user.updatedAt())
+                .build();
+    }
+
+    public User toDomain() {
+        return new User(id, email, name, profileImage, createdAt, updatedAt);
+    }
 
     @Override
     public boolean equals(Object o) {

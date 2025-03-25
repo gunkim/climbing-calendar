@@ -16,4 +16,16 @@ public class Clear {
     private int count;
     private Instant createdAt;
     private Instant updatedAt;
+
+    public static Clear create(Long scheduleId, Long levelId, int count) {
+        Instant now = Instant.now();
+        return new Clear(
+                null,
+                scheduleId,
+                levelId,
+                count,
+                now,
+                now
+        );
+    }
 }

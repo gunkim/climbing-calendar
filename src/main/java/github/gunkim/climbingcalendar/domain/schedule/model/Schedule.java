@@ -18,4 +18,18 @@ public class Schedule {
     private Instant scheduleDate;
     private Instant createdAt;
     private Instant updatedAt;
+
+    public static Schedule create(Long userId, Long climbingGymId, String title, String memo, Instant scheduleDate) {
+        Instant now = Instant.now();
+        return new Schedule(
+                null,
+                userId,
+                climbingGymId,
+                title,
+                memo,
+                scheduleDate,
+                now,
+                now
+        );
+    }
 }

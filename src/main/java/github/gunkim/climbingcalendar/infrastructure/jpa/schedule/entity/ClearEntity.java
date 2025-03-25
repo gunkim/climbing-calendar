@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity(name = "clear")
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ClearEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

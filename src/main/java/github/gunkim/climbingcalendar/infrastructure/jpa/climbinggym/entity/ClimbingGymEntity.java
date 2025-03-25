@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity(name = "climbing_gym")
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ClimbingGymEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

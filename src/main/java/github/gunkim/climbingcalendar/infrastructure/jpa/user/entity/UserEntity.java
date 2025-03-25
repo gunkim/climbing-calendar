@@ -11,7 +11,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity(name = "users")
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

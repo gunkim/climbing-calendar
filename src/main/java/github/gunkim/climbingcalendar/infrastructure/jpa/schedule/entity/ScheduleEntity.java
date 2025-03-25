@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity(name = "schedule")
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ScheduleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -15,7 +15,7 @@ import java.util.Objects;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String email;
     private String name;
     private String profileImage;

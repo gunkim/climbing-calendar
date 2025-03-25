@@ -15,9 +15,9 @@ import java.util.Objects;
 public class ClearEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private Integer scheduleId;
-    private Integer levelId;
+    private Long id;
+    private Long scheduleId;
+    private Long levelId;
     private int count;
     private Instant createdAt;
     private Instant updatedAt;

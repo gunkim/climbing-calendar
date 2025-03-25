@@ -15,9 +15,9 @@ import java.util.Objects;
 public class ScheduleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private Integer userId;
-    private Integer climbingGymId;
+    private Long id;
+    private Long userId;
+    private Long climbingGymId;
     private String title;
     private String memo;
     private Instant scheduleDate;

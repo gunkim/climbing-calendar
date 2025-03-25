@@ -12,8 +12,8 @@ import java.util.Objects;
 public class LevelEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private Integer climbingGymId;
+    private Long id;
+    private Long climbingGymId;
     private String color;
     private int startGrade;
     private int endGrade;

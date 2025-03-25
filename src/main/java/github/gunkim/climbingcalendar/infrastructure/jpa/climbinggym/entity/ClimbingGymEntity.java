@@ -1,6 +1,10 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.entity;
 
-import jakarta.persistence.*;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.ClimbingGym;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +25,17 @@ public class ClimbingGymEntity {
     private Instant createdAt;
     private Instant updatedAt;
 
+    public ClimbingGymEntity(Long id, String name, String address, double latitude, double longitude, boolean isParkingAvailable, Instant createdAt, Instant updatedAt) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.isParkingAvailable = isParkingAvailable;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -32,5 +47,14 @@ public class ClimbingGymEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, address, latitude, longitude, isParkingAvailable, createdAt, updatedAt);
+    }
+
+    public static ClimbingGymEntity from(ClimbingGym climbingGym) {
+        return new ClimbingGymEntity(climbingGym.id(), climbingGym.name(), climbingGym.address(), climbingGym.latitude(), climbingGym.longitude(),
+                climbingGym.isParkingAvailable(), climbingGym.createdAt(), climbingGym.updatedAt());
+    }
+
+    public ClimbingGym toDomain() {
+        return new ClimbingGym(id, name, address, latitude, longitude, isParkingAvailable, createdAt, updatedAt);
     }
 }

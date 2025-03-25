@@ -1,5 +1,6 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.schedule.entity;
 
+import github.gunkim.climbingcalendar.domain.schedule.model.Clear;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +23,15 @@ public class ClearEntity {
     private Instant createdAt;
     private Instant updatedAt;
 
+    public ClearEntity(Long id, Long scheduleId, Long levelId, int count, Instant createdAt, Instant updatedAt) {
+        this.id = id;
+        this.scheduleId = scheduleId;
+        this.levelId = levelId;
+        this.count = count;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -33,5 +43,13 @@ public class ClearEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, scheduleId, levelId, count, createdAt, updatedAt);
+    }
+
+    public static ClearEntity from(Clear clear) {
+        return new ClearEntity(clear.id(), clear.scheduleId(), clear.levelId(), clear.count(), clear.createdAt(), clear.updatedAt());
+    }
+
+    public Clear toDomain() {
+        return new Clear(id, scheduleId, levelId, count, createdAt, updatedAt);
     }
 }

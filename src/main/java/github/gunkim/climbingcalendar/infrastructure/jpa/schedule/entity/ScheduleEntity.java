@@ -1,5 +1,6 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.schedule.entity;
 
+import github.gunkim.climbingcalendar.domain.schedule.model.Schedule;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +25,17 @@ public class ScheduleEntity {
     private Instant createdAt;
     private Instant updatedAt;
 
+    public ScheduleEntity(Long id, Long userId, Long climbingGymId, String title, String memo, Instant scheduleDate, Instant createdAt, Instant updatedAt) {
+        this.id = id;
+        this.userId = userId;
+        this.climbingGymId = climbingGymId;
+        this.title = title;
+        this.memo = memo;
+        this.scheduleDate = scheduleDate;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -35,5 +47,14 @@ public class ScheduleEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, userId, climbingGymId, title, memo, scheduleDate, createdAt, updatedAt);
+    }
+
+    public static ScheduleEntity from(Schedule schedule) {
+        return new ScheduleEntity(schedule.id(), schedule.userId(), schedule.climbingGymId(), schedule.title(), schedule.title(), schedule.scheduleDate(), schedule.createdAt(),
+                schedule.updatedAt());
+    }
+
+    public Schedule toDomain() {
+        return new Schedule(id, userId, climbingGymId, title, memo, scheduleDate, createdAt, updatedAt);
     }
 }

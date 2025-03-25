@@ -1,6 +1,6 @@
 package github.gunkim.climbingcalendar.domain.schedule.service;
 
-import github.gunkim.climbingcalendar.api.schedule.model.ClearVO;
+import github.gunkim.climbingcalendar.api.schedule.model.requeset.CreateScheduleRequest;
 import github.gunkim.climbingcalendar.domain.schedule.model.Clear;
 import github.gunkim.climbingcalendar.domain.schedule.model.Schedule;
 import github.gunkim.climbingcalendar.domain.schedule.repository.ClearRepository;
@@ -17,7 +17,7 @@ public class CreateScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final ClearRepository clearRepository;
 
-    public void createSchedule(Long userId, Long climbingGymId, String title, String memo, Instant scheduleDate, List<ClearVO> clearList) {
+    public void createSchedule(Long userId, Long climbingGymId, String title, String memo, Instant scheduleDate, List<CreateScheduleRequest.ClearItem> clearList) {
         Schedule schedule = scheduleRepository.save(
                 Schedule.create(
                         userId,

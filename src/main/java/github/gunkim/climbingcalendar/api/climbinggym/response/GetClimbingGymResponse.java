@@ -1,9 +1,10 @@
 package github.gunkim.climbingcalendar.api.climbinggym.response;
 
 import github.gunkim.climbingcalendar.domain.climbinggym.model.ClimbingGym;
+import lombok.AccessLevel;
 import lombok.Builder;
 
-@Builder
+@Builder(access = AccessLevel.PRIVATE)
 public record GetClimbingGymResponse(
         Long id,
         String name,

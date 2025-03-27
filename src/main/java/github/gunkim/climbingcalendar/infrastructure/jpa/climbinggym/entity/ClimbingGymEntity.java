@@ -26,7 +26,7 @@ public class ClimbingGymEntity {
     private Instant createdAt;
     private Instant updatedAt;
 
-    @Builder
+    @Builder(access = AccessLevel.PRIVATE)
     public ClimbingGymEntity(Long id, String name, String address, double latitude, double longitude, boolean isParkingAvailable, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.name = name;

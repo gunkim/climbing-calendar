@@ -1,7 +1,12 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.entity;
 
-import jakarta.persistence.*;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.ClimbingGym;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
@@ -21,6 +26,18 @@ public class ClimbingGymEntity {
     private Instant createdAt;
     private Instant updatedAt;
 
+    @Builder(access = AccessLevel.PRIVATE)
+    public ClimbingGymEntity(Long id, String name, String address, double latitude, double longitude, boolean isParkingAvailable, Instant createdAt, Instant updatedAt) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.isParkingAvailable = isParkingAvailable;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -32,5 +49,22 @@ public class ClimbingGymEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, address, latitude, longitude, isParkingAvailable, createdAt, updatedAt);
+    }
+
+    public static ClimbingGymEntity from(ClimbingGym climbingGym) {
+        return ClimbingGymEntity.builder()
+                .id(climbingGym.id())
+                .name(climbingGym.name())
+                .address(climbingGym.address())
+                .latitude(climbingGym.latitude())
+                .longitude(climbingGym.longitude())
+                .isParkingAvailable(climbingGym.isParkingAvailable())
+                .createdAt(climbingGym.createdAt())
+                .updatedAt(climbingGym.updatedAt())
+                .build();
+    }
+
+    public ClimbingGym toDomain() {
+        return new ClimbingGym(id, name, address, latitude, longitude, isParkingAvailable, createdAt, updatedAt);
     }
 }

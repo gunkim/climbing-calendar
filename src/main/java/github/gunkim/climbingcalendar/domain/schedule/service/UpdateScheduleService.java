@@ -28,6 +28,8 @@ public class UpdateScheduleService {
 
     private void saveClears(long scheduleId, List<ClearItem> clears) {
         clearRepository.deleteByScheduleId(scheduleId);
-        clearRepository.saveAll(clears.stream().map(clear -> clear.toClear(scheduleId)).toList());
+        clearRepository.saveAll(clears.stream()
+                .map(clear -> clear.toClear(scheduleId))
+                .toList());
     }
 }

@@ -13,6 +13,6 @@ public class GetLevelService {
     private final LevelRepository levelRepository;
 
     public List<Level> getLevels(Long climbingGymId) {
-        return levelRepository.findByClimbingGymId(climbingGymId).orElseThrow();
+        return levelRepository.findByClimbingGymId(climbingGymId);
     }
 }

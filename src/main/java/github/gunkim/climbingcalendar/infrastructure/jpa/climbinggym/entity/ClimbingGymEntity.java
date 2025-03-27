@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
@@ -25,6 +26,7 @@ public class ClimbingGymEntity {
     private Instant createdAt;
     private Instant updatedAt;
 
+    @Builder
     public ClimbingGymEntity(Long id, String name, String address, double latitude, double longitude, boolean isParkingAvailable, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.name = name;
@@ -50,8 +52,16 @@ public class ClimbingGymEntity {
     }
 
     public static ClimbingGymEntity from(ClimbingGym climbingGym) {
-        return new ClimbingGymEntity(climbingGym.id(), climbingGym.name(), climbingGym.address(), climbingGym.latitude(), climbingGym.longitude(),
-                climbingGym.isParkingAvailable(), climbingGym.createdAt(), climbingGym.updatedAt());
+        return ClimbingGymEntity.builder()
+                .id(climbingGym.id())
+                .name(climbingGym.name())
+                .address(climbingGym.address())
+                .latitude(climbingGym.latitude())
+                .longitude(climbingGym.longitude())
+                .isParkingAvailable(climbingGym.isParkingAvailable())
+                .createdAt(climbingGym.createdAt())
+                .updatedAt(climbingGym.updatedAt())
+                .build();
     }
 
     public ClimbingGym toDomain() {

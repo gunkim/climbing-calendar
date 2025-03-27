@@ -1,7 +1,9 @@
 package github.gunkim.climbingcalendar.api.climbinggym.response;
 
 import github.gunkim.climbingcalendar.domain.climbinggym.model.ClimbingGym;
+import lombok.Builder;
 
+@Builder
 public record GetClimbingGymResponse(
         Long id,
         String name,
@@ -11,7 +13,13 @@ public record GetClimbingGymResponse(
         boolean isParkingAvailable
 ) {
     public static GetClimbingGymResponse from(ClimbingGym climbingGym) {
-        return new GetClimbingGymResponse(climbingGym.id(), climbingGym.name(), climbingGym.address(), climbingGym.latitude(), climbingGym.longitude(),
-                climbingGym.isParkingAvailable());
+        return GetClimbingGymResponse.builder()
+                .id(climbingGym.id())
+                .name(climbingGym.name())
+                .address(climbingGym.address())
+                .latitude(climbingGym.latitude())
+                .longitude(climbingGym.longitude())
+                .isParkingAvailable(climbingGym.isParkingAvailable())
+                .build();
     }
 }

@@ -1,6 +1,6 @@
 package github.gunkim.climbingcalendar.api.schedule.model.requeset;
 
-import github.gunkim.climbingcalendar.domain.schedule.model.UnsavedClear;
+import github.gunkim.climbingcalendar.domain.schedule.model.ClearItem;
 
 import java.time.Instant;
 import java.util.List;
@@ -10,7 +10,7 @@ public record CreateScheduleRequest(
         Instant scheduleDate,
         Long climbingGymId,
         String memo,
-        List<UnsavedClear> clearList
+        List<ClearItem> clearList
 ) {
 }
 

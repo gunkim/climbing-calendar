@@ -1,5 +1,6 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.entity;
 
+import github.gunkim.climbingcalendar.domain.climbinggym.model.Level;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -31,5 +32,9 @@ public class LevelEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, climbingGymId, color, startGrade, endGrade, createdAt, updatedAt);
+    }
+
+    public Level toDomain() {
+        return new Level(id, climbingGymId, color, startGrade, endGrade, createdAt, updatedAt);
     }
 }

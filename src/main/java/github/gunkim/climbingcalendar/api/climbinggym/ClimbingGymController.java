@@ -17,6 +17,8 @@ public class ClimbingGymController {
 
     @GetMapping
     public List<GetClimbingGymResponse> getClimbingGyms() {
-        return getClimbingGymService.getClimbingGyms().stream().map(GetClimbingGymResponse::from).toList();
+        return getClimbingGymService.getClimbingGyms().stream()
+                .map(GetClimbingGymResponse::from)
+                .toList();
     }
 }

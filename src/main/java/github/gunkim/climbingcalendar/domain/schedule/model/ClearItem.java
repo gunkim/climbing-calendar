@@ -1,6 +1,6 @@
 package github.gunkim.climbingcalendar.domain.schedule.model;
 
-public record UnsavedClear(
+public record ClearItem(
         Long levelId,
         int count
 ) {

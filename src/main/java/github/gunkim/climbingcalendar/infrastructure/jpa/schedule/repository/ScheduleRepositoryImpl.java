@@ -20,6 +20,11 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     }
 
     @Override
+    public void deleteById(Long scheduleId) {
+        scheduleDao.deleteById(scheduleId);
+    }
+
+    @Override
     public Optional<Schedule> findById(Long id) {
         return scheduleDao.findById(id).map(ScheduleEntity::toDomain);
     }

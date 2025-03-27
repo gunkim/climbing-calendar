@@ -16,6 +16,8 @@ public class ClimbingGymRepositoryImpl implements ClimbingGymRepository {
 
     @Override
     public List<ClimbingGym> findAll() {
-        return climbingGymDao.findAll().stream().map(ClimbingGymEntity::toDomain).toList();
+        return climbingGymDao.findAll().stream()
+                .map(ClimbingGymEntity::toDomain)
+                .toList();
     }
 }

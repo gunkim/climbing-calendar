@@ -7,6 +7,8 @@ import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.entity.Schedul
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class ScheduleRepositoryImpl implements ScheduleRepository {
@@ -15,5 +17,10 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     @Override
     public Schedule save(Schedule schedule) {
         return scheduleDao.save(ScheduleEntity.from(schedule)).toDomain();
+    }
+
+    @Override
+    public Optional<Schedule> findById(Long id) {
+        return scheduleDao.findById(id).map(ScheduleEntity::toDomain);
     }
 }

@@ -23,4 +23,9 @@ public class ClearRepositoryImpl implements ClearRepository {
     public List<Clear> saveAll(List<Clear> clears) {
         return clearDao.saveAll(clears.stream().map(ClearEntity::from).toList()).stream().map(ClearEntity::toDomain).toList();
     }
+
+    @Override
+    public void deleteByScheduleId(Long scheduleId) {
+        clearDao.deleteByScheduleId(scheduleId);
+    }
 }

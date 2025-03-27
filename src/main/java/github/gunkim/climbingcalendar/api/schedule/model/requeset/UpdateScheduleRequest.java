@@ -5,7 +5,7 @@ import github.gunkim.climbingcalendar.domain.schedule.model.ClearItem;
 import java.time.Instant;
 import java.util.List;
 
-public record CreateScheduleRequest(
+public record UpdateScheduleRequest(
         String title,
         Instant scheduleDate,
         Long climbingGymId,
@@ -13,5 +13,3 @@ public record CreateScheduleRequest(
         List<ClearItem> clearList
 ) {
 }
-
-

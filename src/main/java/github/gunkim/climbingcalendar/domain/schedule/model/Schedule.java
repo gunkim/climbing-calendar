@@ -44,4 +44,19 @@ public class Schedule {
                 .updatedAt(now)
                 .build();
     }
+
+    public Schedule update(Long climbingGymId, String title, String memo, Instant scheduleDate) {
+        Instant now = Instant.now();
+
+        return Schedule.builder()
+                .id(id)
+                .userId(userId)
+                .climbingGymId(climbingGymId)
+                .title(title)
+                .memo(memo)
+                .scheduleDate(scheduleDate)
+                .createdAt(createdAt)
+                .updatedAt(now)
+                .build();
+    }
 }

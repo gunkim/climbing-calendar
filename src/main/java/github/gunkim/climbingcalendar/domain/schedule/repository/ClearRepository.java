@@ -8,4 +8,6 @@ public interface ClearRepository {
     Clear save(Clear clear);
 
     List<Clear> saveAll(List<Clear> list);
+
+    void deleteByScheduleId(Long scheduleId);
 }

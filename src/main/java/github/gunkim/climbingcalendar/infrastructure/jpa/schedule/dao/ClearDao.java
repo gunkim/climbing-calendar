@@ -4,4 +4,5 @@ import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.entity.ClearEn
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ClearDao extends JpaRepository<ClearEntity, Long> {
+    void deleteByScheduleId(Long scheduleId);
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
@@ -23,6 +24,7 @@ public class ClearEntity {
     private Instant createdAt;
     private Instant updatedAt;
 
+    @Builder(access = AccessLevel.PRIVATE)
     public ClearEntity(Long id, Long scheduleId, Long levelId, int count, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.scheduleId = scheduleId;
@@ -46,7 +48,14 @@ public class ClearEntity {
     }
 
     public static ClearEntity from(Clear clear) {
-        return new ClearEntity(clear.id(), clear.scheduleId(), clear.levelId(), clear.count(), clear.createdAt(), clear.updatedAt());
+        return ClearEntity.builder()
+                .id(clear.id())
+                .scheduleId(clear.scheduleId())
+                .levelId(clear.levelId())
+                .count(clear.count())
+                .createdAt(clear.createdAt())
+                .updatedAt(clear.updatedAt())
+                .build();
     }
 
     public Clear toDomain() {

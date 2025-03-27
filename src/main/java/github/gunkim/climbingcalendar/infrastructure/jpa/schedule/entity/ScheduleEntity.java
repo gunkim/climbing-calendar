@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
@@ -25,6 +26,7 @@ public class ScheduleEntity {
     private Instant createdAt;
     private Instant updatedAt;
 
+    @Builder(access = AccessLevel.PRIVATE)
     public ScheduleEntity(Long id, Long userId, Long climbingGymId, String title, String memo, Instant scheduleDate, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.userId = userId;
@@ -50,8 +52,17 @@ public class ScheduleEntity {
     }
 
     public static ScheduleEntity from(Schedule schedule) {
-        return new ScheduleEntity(schedule.id(), schedule.userId(), schedule.climbingGymId(), schedule.title(), schedule.title(), schedule.scheduleDate(), schedule.createdAt(),
-                schedule.updatedAt());
+        return ScheduleEntity.builder()
+                .id(schedule.id())
+                .userId(schedule.userId())
+                .climbingGymId(schedule.climbingGymId())
+                .title(schedule.title())
+                .scheduleDate(schedule.scheduleDate())
+                .memo(schedule.memo())
+                .scheduleDate(schedule.scheduleDate())
+                .createdAt(schedule.createdAt())
+                .updatedAt(schedule.updatedAt())
+                .build();
     }
 
     public Schedule toDomain() {

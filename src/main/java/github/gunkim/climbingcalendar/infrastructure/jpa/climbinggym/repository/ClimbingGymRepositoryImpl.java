@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,5 +20,10 @@ public class ClimbingGymRepositoryImpl implements ClimbingGymRepository {
         return climbingGymDao.findAll().stream()
                 .map(ClimbingGymEntity::toDomain)
                 .toList();
+    }
+
+    @Override
+    public Optional<ClimbingGym> findById(Long id) {
+        return climbingGymDao.findById(id).map(ClimbingGymEntity::toDomain);
     }
 }

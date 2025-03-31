@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -27,5 +28,17 @@ public class ClearRepositoryImpl implements ClearRepository {
     @Override
     public void deleteByScheduleId(Long scheduleId) {
         clearDao.deleteByScheduleId(scheduleId);
+    }
+
+    @Override
+    public Optional<Clear> findById(Long id) {
+        return clearDao.findById(id).map(ClearEntity::toDomain);
+    }
+
+    @Override
+    public List<Clear> findByScheduleId(Long scheduleId) {
+        return clearDao.findByScheduleId(scheduleId).stream()
+                .map(ClearEntity::toDomain)
+                .toList();
     }
 }

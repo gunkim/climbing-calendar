@@ -13,10 +13,10 @@ public record GetClimbingGymOfLevelResponse(
 ) {
     public static GetClimbingGymOfLevelResponse from(Level level) {
         return GetClimbingGymOfLevelResponse.builder()
-                .id(level.id())
-                .startGrade(level.startGrade())
-                .endGrade(level.endGrade())
-                .color(level.color())
+                .id(level.id().value())
+                .startGrade(level.grade().startGrade())
+                .endGrade(level.grade().endGrade())
+                .color(level.color().toString())
                 .build();
     }
 }

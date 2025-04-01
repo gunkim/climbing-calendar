@@ -21,11 +21,11 @@ public record GetScheduleResponse(
 ) {
     public static GetScheduleResponse from(ScheduleWithClimbingGym scheduleWithClimbingGym, List<ClearWithLevel> clears) {
         return GetScheduleResponse.builder()
-                .id(scheduleWithClimbingGym.schedule().id())
+                .id(scheduleWithClimbingGym.schedule().id().value())
                 .title(scheduleWithClimbingGym.schedule().title())
                 .scheduleDate(scheduleWithClimbingGym.schedule().scheduleDate())
                 .memo(scheduleWithClimbingGym.schedule().memo())
-                .climbingGymId(scheduleWithClimbingGym.climbingGym().id())
+                .climbingGymId(scheduleWithClimbingGym.climbingGym().id().value())
                 .climbingGymName(scheduleWithClimbingGym.climbingGym().name())
                 .clearList(
                         clears.stream()

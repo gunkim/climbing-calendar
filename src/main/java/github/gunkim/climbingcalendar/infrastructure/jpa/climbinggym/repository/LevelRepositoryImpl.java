@@ -1,6 +1,8 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.repository;
 
 import github.gunkim.climbingcalendar.domain.climbinggym.model.Level;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.id.LevelId;
 import github.gunkim.climbingcalendar.domain.climbinggym.repository.LevelRepository;
 import github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.dao.LevelDao;
 import github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.entity.LevelEntity;
@@ -16,14 +18,14 @@ public class LevelRepositoryImpl implements LevelRepository {
     private final LevelDao levelDao;
 
     @Override
-    public List<Level> findByClimbingGymId(Long climbingGymId) {
-        return levelDao.findByClimbingGymId(climbingGymId).stream()
+    public List<Level> findByClimbingGymId(ClimbingGymId climbingGymId) {
+        return levelDao.findByClimbingGymId(climbingGymId.value()).stream()
                 .map(LevelEntity::toDomain)
                 .toList();
     }
 
     @Override
-    public Optional<Level> findById(Long id) {
-        return levelDao.findById(id).map(LevelEntity::toDomain);
+    public Optional<Level> findById(LevelId id) {
+        return levelDao.findById(id.value()).map(LevelEntity::toDomain);
     }
 }

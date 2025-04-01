@@ -1,6 +1,8 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.schedule.repository;
 
 import github.gunkim.climbingcalendar.domain.schedule.model.Clear;
+import github.gunkim.climbingcalendar.domain.schedule.model.id.ClearId;
+import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
 import github.gunkim.climbingcalendar.domain.schedule.repository.ClearRepository;
 import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.dao.ClearDao;
 import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.entity.ClearEntity;
@@ -26,18 +28,18 @@ public class ClearRepositoryImpl implements ClearRepository {
     }
 
     @Override
-    public void deleteByScheduleId(Long scheduleId) {
-        clearDao.deleteByScheduleId(scheduleId);
+    public void deleteByScheduleId(ScheduleId scheduleId) {
+        clearDao.deleteByScheduleId(scheduleId.value());
     }
 
     @Override
-    public Optional<Clear> findById(Long id) {
-        return clearDao.findById(id).map(ClearEntity::toDomain);
+    public Optional<Clear> findById(ClearId id) {
+        return clearDao.findById(id.value()).map(ClearEntity::toDomain);
     }
 
     @Override
-    public List<Clear> findByScheduleId(Long scheduleId) {
-        return clearDao.findByScheduleId(scheduleId).stream()
+    public List<Clear> findByScheduleId(ScheduleId scheduleId) {
+        return clearDao.findByScheduleId(scheduleId.value()).stream()
                 .map(ClearEntity::toDomain)
                 .toList();
     }

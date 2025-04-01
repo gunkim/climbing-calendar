@@ -23,7 +23,10 @@ public class UpdateScheduleService {
     }
 
     private Schedule saveSchedule(Long id, Long climbingGymId, String title, Instant scheduleDate, String memo) {
-        return scheduleRepository.save(getScheduleService.getSchedule(id).update(climbingGymId, title, memo, scheduleDate));
+        Schedule schedule = scheduleRepository.save(getScheduleService.getSchedule(id));
+        schedule.update(climbingGymId, title, memo, scheduleDate);
+        return schedule;
+
     }
 
     private void saveClears(long scheduleId, List<ClearItem> clears) {

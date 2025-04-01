@@ -1,6 +1,10 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.entity;
 
 import github.gunkim.climbingcalendar.domain.climbinggym.model.Level;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.id.LevelId;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.vo.Color;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.vo.Grade;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -15,11 +19,16 @@ public class LevelEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long climbingGymId;
-    private String color;
+    @Enumerated(EnumType.STRING)
+    private Color color;
     private int startGrade;
     private int endGrade;
     private Instant createdAt;
     private Instant updatedAt;
+
+    public Level toDomain() {
+        return new Level(LevelId.from(id), ClimbingGymId.from(climbingGymId), color, Grade.from(startGrade, endGrade), createdAt, updatedAt);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -32,9 +41,5 @@ public class LevelEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, climbingGymId, color, startGrade, endGrade, createdAt, updatedAt);
-    }
-
-    public Level toDomain() {
-        return new Level(id, climbingGymId, color, startGrade, endGrade, createdAt, updatedAt);
     }
 }

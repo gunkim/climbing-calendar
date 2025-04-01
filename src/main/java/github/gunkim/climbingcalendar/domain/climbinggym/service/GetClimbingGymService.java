@@ -1,6 +1,7 @@
 package github.gunkim.climbingcalendar.domain.climbinggym.service;
 
 import github.gunkim.climbingcalendar.domain.climbinggym.model.ClimbingGym;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
 import github.gunkim.climbingcalendar.domain.climbinggym.repository.ClimbingGymRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class GetClimbingGymService {
         return climbingGymRepository.findAll();
     }
 
-    public ClimbingGym getClimbingGym(Long climbingGymId) {
-        return climbingGymRepository.findById(climbingGymId).orElseThrow();
+    public ClimbingGym getClimbingGym(ClimbingGymId climbingGymId) {
+        return climbingGymRepository.findById(climbingGymId.value()).orElseThrow();
     }
 }

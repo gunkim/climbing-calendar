@@ -12,6 +12,10 @@ import java.util.List;
 public class GetLevelService {
     private final LevelRepository levelRepository;
 
+    public Level getLevel(Long levelId) {
+        return levelRepository.findById(levelId).orElseThrow();
+    }
+
     public List<Level> getLevels(Long climbingGymId) {
         return levelRepository.findByClimbingGymId(climbingGymId);
     }

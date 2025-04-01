@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,5 +15,9 @@ public class GetClimbingGymService {
 
     public List<ClimbingGym> getClimbingGyms() {
         return climbingGymRepository.findAll();
+    }
+
+    public ClimbingGym getClimbingGym(Long climbingGymId) {
+        return climbingGymRepository.findById(climbingGymId).orElseThrow();
     }
 }

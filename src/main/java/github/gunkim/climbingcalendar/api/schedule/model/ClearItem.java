@@ -14,10 +14,10 @@ public record ClearItem(
 ) {
     public static ClearItem from(ClearWithLevel clearWithLevel) {
         return ClearItem.builder()
-                .id(clearWithLevel.clear().id())
-                .color(clearWithLevel.level().color())
-                .startGrade(clearWithLevel.level().startGrade())
-                .endGrade(clearWithLevel.level().endGrade())
+                .id(clearWithLevel.clear().id().value())
+                .color(clearWithLevel.level().color().toString())
+                .startGrade(clearWithLevel.level().grade().startGrade())
+                .endGrade(clearWithLevel.level().grade().endGrade())
                 .count(clearWithLevel.clear().count())
                 .build();
     }

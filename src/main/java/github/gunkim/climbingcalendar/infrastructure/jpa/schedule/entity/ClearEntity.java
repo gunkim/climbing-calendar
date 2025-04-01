@@ -1,6 +1,9 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.schedule.entity;
 
+import github.gunkim.climbingcalendar.domain.climbinggym.model.id.LevelId;
 import github.gunkim.climbingcalendar.domain.schedule.model.Clear;
+import github.gunkim.climbingcalendar.domain.schedule.model.id.ClearId;
+import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,6 +37,21 @@ public class ClearEntity {
         this.updatedAt = updatedAt;
     }
 
+    public static ClearEntity from(Clear clear) {
+        return ClearEntity.builder()
+                .id(clear.id().value())
+                .scheduleId(clear.scheduleId().value())
+                .levelId(clear.levelId().value())
+                .count(clear.count())
+                .createdAt(clear.createdAt())
+                .updatedAt(clear.updatedAt())
+                .build();
+    }
+
+    public Clear toDomain() {
+        return new Clear(ClearId.from(id), ScheduleId.from(scheduleId), LevelId.from(levelId), count, createdAt, updatedAt);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,20 +63,5 @@ public class ClearEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, scheduleId, levelId, count, createdAt, updatedAt);
-    }
-
-    public static ClearEntity from(Clear clear) {
-        return ClearEntity.builder()
-                .id(clear.id())
-                .scheduleId(clear.scheduleId())
-                .levelId(clear.levelId())
-                .count(clear.count())
-                .createdAt(clear.createdAt())
-                .updatedAt(clear.updatedAt())
-                .build();
-    }
-
-    public Clear toDomain() {
-        return new Clear(id, scheduleId, levelId, count, createdAt, updatedAt);
     }
 }

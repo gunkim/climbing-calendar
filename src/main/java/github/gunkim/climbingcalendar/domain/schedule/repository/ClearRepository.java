@@ -1,6 +1,8 @@
 package github.gunkim.climbingcalendar.domain.schedule.repository;
 
 import github.gunkim.climbingcalendar.domain.schedule.model.Clear;
+import github.gunkim.climbingcalendar.domain.schedule.model.id.ClearId;
+import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +12,9 @@ public interface ClearRepository {
 
     List<Clear> saveAll(List<Clear> list);
 
-    void deleteByScheduleId(Long scheduleId);
+    void deleteByScheduleId(ScheduleId scheduleId);
 
-    Optional<Clear> findById(Long id);
+    Optional<Clear> findById(ClearId id);
 
-    List<Clear> findByScheduleId(Long scheduleId);
+    List<Clear> findByScheduleId(ScheduleId scheduleId);
 }

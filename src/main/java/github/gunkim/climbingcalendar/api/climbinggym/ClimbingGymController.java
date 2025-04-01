@@ -2,6 +2,7 @@ package github.gunkim.climbingcalendar.api.climbinggym;
 
 import github.gunkim.climbingcalendar.api.climbinggym.response.GetClimbingGymOfLevelResponse;
 import github.gunkim.climbingcalendar.api.climbinggym.response.GetClimbingGymResponse;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
 import github.gunkim.climbingcalendar.domain.climbinggym.service.GetClimbingGymService;
 import github.gunkim.climbingcalendar.domain.climbinggym.service.GetLevelService;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,8 @@ public class ClimbingGymController {
     }
 
     @GetMapping("/{id}/levels")
-    public List<GetClimbingGymOfLevelResponse> getClimbingGymOfLevels(@PathVariable("id") Long id) {
-        return getLevelService.getLevels(id).stream()
+    public List<GetClimbingGymOfLevelResponse> getClimbingGymOfLevels(@PathVariable Long id) {
+        return getLevelService.getLevels(ClimbingGymId.from(id)).stream()
                 .map(GetClimbingGymOfLevelResponse::from)
                 .toList();
     }

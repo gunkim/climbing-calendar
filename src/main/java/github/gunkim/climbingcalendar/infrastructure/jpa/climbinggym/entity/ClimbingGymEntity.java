@@ -1,6 +1,8 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.entity;
 
 import github.gunkim.climbingcalendar.domain.climbinggym.model.ClimbingGym;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.vo.Geo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,6 +40,23 @@ public class ClimbingGymEntity {
         this.updatedAt = updatedAt;
     }
 
+    public static ClimbingGymEntity from(ClimbingGym climbingGym) {
+        return ClimbingGymEntity.builder()
+                .id(climbingGym.id().value())
+                .name(climbingGym.name())
+                .address(climbingGym.address())
+                .latitude(climbingGym.geo().latitude())
+                .longitude(climbingGym.geo().longitude())
+                .isParkingAvailable(climbingGym.isParkingAvailable())
+                .createdAt(climbingGym.createdAt())
+                .updatedAt(climbingGym.updatedAt())
+                .build();
+    }
+
+    public ClimbingGym toDomain() {
+        return new ClimbingGym(ClimbingGymId.from(id), name, address, Geo.from(latitude, longitude), isParkingAvailable, createdAt, updatedAt);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,20 +70,4 @@ public class ClimbingGymEntity {
         return Objects.hash(id, name, address, latitude, longitude, isParkingAvailable, createdAt, updatedAt);
     }
 
-    public static ClimbingGymEntity from(ClimbingGym climbingGym) {
-        return ClimbingGymEntity.builder()
-                .id(climbingGym.id())
-                .name(climbingGym.name())
-                .address(climbingGym.address())
-                .latitude(climbingGym.latitude())
-                .longitude(climbingGym.longitude())
-                .isParkingAvailable(climbingGym.isParkingAvailable())
-                .createdAt(climbingGym.createdAt())
-                .updatedAt(climbingGym.updatedAt())
-                .build();
-    }
-
-    public ClimbingGym toDomain() {
-        return new ClimbingGym(id, name, address, latitude, longitude, isParkingAvailable, createdAt, updatedAt);
-    }
 }

@@ -1,6 +1,9 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.schedule.entity;
 
+import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
 import github.gunkim.climbingcalendar.domain.schedule.model.Schedule;
+import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
+import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,6 +41,24 @@ public class ScheduleEntity {
         this.updatedAt = updatedAt;
     }
 
+    public static ScheduleEntity from(Schedule schedule) {
+        return ScheduleEntity.builder()
+                .id(schedule.id().value())
+                .userId(schedule.userId().value())
+                .climbingGymId(schedule.climbingGymId().value())
+                .title(schedule.title())
+                .scheduleDate(schedule.scheduleDate())
+                .memo(schedule.memo())
+                .scheduleDate(schedule.scheduleDate())
+                .createdAt(schedule.createdAt())
+                .updatedAt(schedule.updatedAt())
+                .build();
+    }
+
+    public Schedule toDomain() {
+        return new Schedule(ScheduleId.from(id), UserId.from(userId), ClimbingGymId.from(climbingGymId), title, memo, scheduleDate, createdAt, updatedAt);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,21 +72,4 @@ public class ScheduleEntity {
         return Objects.hash(id, userId, climbingGymId, title, memo, scheduleDate, createdAt, updatedAt);
     }
 
-    public static ScheduleEntity from(Schedule schedule) {
-        return ScheduleEntity.builder()
-                .id(schedule.id())
-                .userId(schedule.userId())
-                .climbingGymId(schedule.climbingGymId())
-                .title(schedule.title())
-                .scheduleDate(schedule.scheduleDate())
-                .memo(schedule.memo())
-                .scheduleDate(schedule.scheduleDate())
-                .createdAt(schedule.createdAt())
-                .updatedAt(schedule.updatedAt())
-                .build();
-    }
-
-    public Schedule toDomain() {
-        return new Schedule(id, userId, climbingGymId, title, memo, scheduleDate, createdAt, updatedAt);
-    }
 }

@@ -1,7 +1,9 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.schedule.repository;
 
 import github.gunkim.climbingcalendar.domain.schedule.model.Schedule;
+import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
 import github.gunkim.climbingcalendar.domain.schedule.repository.ScheduleRepository;
+import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.dao.ScheduleDao;
 import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.entity.ScheduleEntity;
 import lombok.RequiredArgsConstructor;
@@ -21,18 +23,18 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     }
 
     @Override
-    public void deleteById(Long scheduleId) {
-        scheduleDao.deleteById(scheduleId);
+    public void deleteById(ScheduleId scheduleId) {
+        scheduleDao.deleteById(scheduleId.value());
     }
 
     @Override
-    public Optional<Schedule> findById(Long id) {
-        return scheduleDao.findById(id).map(ScheduleEntity::toDomain);
+    public Optional<Schedule> findById(ScheduleId id) {
+        return scheduleDao.findById(id.value()).map(ScheduleEntity::toDomain);
     }
 
     @Override
-    public List<Schedule> findByUserId(Long userId) {
-        return scheduleDao.findByUserId(userId).stream()
+    public List<Schedule> findByUserId(UserId userId) {
+        return scheduleDao.findByUserId(userId.value()).stream()
                 .map(ScheduleEntity::toDomain)
                 .toList();
     }

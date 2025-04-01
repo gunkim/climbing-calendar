@@ -21,7 +21,7 @@ public class ScheduleController {
     private final ClearWithLevelReader clearWithLevelReader;
 
     @GetMapping
-    public List<GetScheduleResponse> getSchdules() {
+    public List<GetScheduleResponse> getSchedules() {
         Long userId = 1L;
         return scheduleWithClimbingGymReader.getSchedules(userId).stream()
                 .map(scheduleWithClimbingGym -> GetScheduleResponse.from(scheduleWithClimbingGym, clearWithLevelReader.getClears(scheduleWithClimbingGym.schedule().id())))

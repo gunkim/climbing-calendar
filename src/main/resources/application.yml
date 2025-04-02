@@ -1,5 +1,27 @@
 spring:
   application:
     name: climbing-calendar
-  jpa:
-    open-in-view: false
+  profiles:
+    active: local
+    group:
+      local:
+        - local-h2-datasource
+        - local-jwt
+        - local-frontend
+    include:
+      - oauth
+      - datasource
+      - jwt
+debug: true
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        security.oauth2: DEBUG
+---
+sprinG:
+  config:
+    activate:
+      on-profile: local-frontend
+frontend-url: http://localhost:3000

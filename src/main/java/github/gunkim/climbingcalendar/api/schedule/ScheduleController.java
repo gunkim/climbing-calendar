@@ -31,8 +31,8 @@ public class ScheduleController {
     }
 
     @PostMapping
-    public void createSchedule(User user, @RequestBody CreateScheduleRequest createScheduleRequest) {
-        createScheduleService.createSchedule(user.id(), createScheduleRequest.climbingGymId(), createScheduleRequest.title(), createScheduleRequest.memo(),
+    public void createSchedule(@AuthenticationPrincipal AuthenticatedUser authenticatedUser, @RequestBody CreateScheduleRequest createScheduleRequest) {
+        createScheduleService.createSchedule(authenticatedUser.userId(), createScheduleRequest.climbingGymId(), createScheduleRequest.title(), createScheduleRequest.memo(),
                 createScheduleRequest.scheduleDate(), createScheduleRequest.clearList());
     }
 

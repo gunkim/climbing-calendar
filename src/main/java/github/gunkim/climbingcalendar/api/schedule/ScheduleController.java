@@ -1,12 +1,13 @@
 package github.gunkim.climbingcalendar.api.schedule;
 
+import github.gunkim.climbingcalendar.api.AuthenticatedUser;
 import github.gunkim.climbingcalendar.api.schedule.model.requeset.CreateScheduleRequest;
 import github.gunkim.climbingcalendar.api.schedule.model.requeset.UpdateScheduleRequest;
 import github.gunkim.climbingcalendar.api.schedule.model.response.GetScheduleResponse;
-import github.gunkim.climbingcalendar.api.CurrentUser;
 import github.gunkim.climbingcalendar.domain.schedule.service.*;
 import github.gunkim.climbingcalendar.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,14 +24,14 @@ public class ScheduleController {
     private final ClearWithLevelReader clearWithLevelReader;
 
     @GetMapping
-    public List<GetScheduleResponse> getSchedules(@CurrentUser User user) {
-        return scheduleWithClimbingGymReader.getSchedules(user.id()).stream()
+    public List<GetScheduleResponse> getSchedules(@AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
+        return scheduleWithClimbingGymReader.getSchedules(authenticatedUser.userId()).stream()
                 .map(scheduleWithClimbingGym -> GetScheduleResponse.from(scheduleWithClimbingGym, clearWithLevelReader.getClears(scheduleWithClimbingGym.schedule().id())))
                 .toList();
     }
 
     @PostMapping
-    public void createSchedule(@CurrentUser User user, @RequestBody CreateScheduleRequest createScheduleRequest) {
+    public void createSchedule(User user, @RequestBody CreateScheduleRequest createScheduleRequest) {
         createScheduleService.createSchedule(user.id(), createScheduleRequest.climbingGymId(), createScheduleRequest.title(), createScheduleRequest.memo(),
                 createScheduleRequest.scheduleDate(), createScheduleRequest.clearList());
     }

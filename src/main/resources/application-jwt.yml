@@ -1,0 +1,8 @@
+---
+spring:
+  config:
+    activate:
+      on-profile: local-jwt
+jwt:
+  secret-key: 12341234123412341234123412341234
+---

@@ -12,9 +12,11 @@ public class KakaoOAuthAttributesAdapter {
         Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
         properties.put("id", attributes.get("id"));
 
+        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+
         return OAuthAttributes.builder()
                 .name((String) properties.get("nickname"))
-                .email((String) properties.get("email"))
+                .email((String) kakaoAccount.get("email"))
                 .picture((String) properties.get("profile_image"))
                 .attributes(properties)
                 .nameAttributeKey("nickname")

@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Entity(name = "users")
@@ -30,7 +31,7 @@ public class UserEntity {
 
     public static UserEntity from(User user) {
         return UserEntity.builder()
-                .id(user.id().value())
+                .id(Optional.ofNullable(user.id()).map(UserId::value).orElse(null))
                 .email(user.email())
                 .name(user.name())
                 .profileImage(user.profileImage())

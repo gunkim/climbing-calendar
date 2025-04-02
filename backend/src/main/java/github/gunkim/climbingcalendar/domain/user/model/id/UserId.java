@@ -6,4 +6,9 @@ public record UserId(
     public static UserId from(Long value) {
         return new UserId(value);
     }
+
+    @Override
+    public String toString() {
+        return value.toString();
+    }
 }

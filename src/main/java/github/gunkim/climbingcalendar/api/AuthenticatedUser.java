@@ -1,4 +1,6 @@
 package github.gunkim.climbingcalendar.api;
 
-public record AuthenticatedUser(long userId) {
+import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
+
+public record AuthenticatedUser(UserId userId) {
 }

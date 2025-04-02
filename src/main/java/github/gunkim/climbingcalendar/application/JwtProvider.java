@@ -1,5 +1,6 @@
 package github.gunkim.climbingcalendar.application;
 
+import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;
 
@@ -16,25 +17,25 @@ public class JwtProvider {
         this.secretKey = secretKey;
     }
 
-    public String createToken(Long userId) {
+    public String createToken(UserId userId) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expirationTime = now.plusMinutes(EXPIRATION_MINUTES);
 
         return Jwts.builder()
                 .signWith(secretKey)
-                .claim(USER_ID_PAYLOAD_PARAMETER, userId)
+                .claim(USER_ID_PAYLOAD_PARAMETER, userId.value())
                 .issuedAt(toDate(now))
                 .expiration(toDate(expirationTime))
                 .compact();
     }
 
-    public Long parse(String jws) {
-        return Jwts.parser()
+    public UserId parse(String jws) {
+        return UserId.from(Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(jws)
                 .getPayload()
-                .get(USER_ID_PAYLOAD_PARAMETER, Long.class);
+                .get(USER_ID_PAYLOAD_PARAMETER, Long.class));
     }
 
     private Date toDate(LocalDateTime localDateTime) {

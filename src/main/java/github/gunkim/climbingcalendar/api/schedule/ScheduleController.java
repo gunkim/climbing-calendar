@@ -59,7 +59,7 @@ public class ScheduleController implements ScheduleResource {
 
     @Override
     public void createSchedule(AuthenticatedUser authenticatedUser, CreateScheduleRequest createScheduleRequest) {
-        createScheduleService.createSchedule(authenticatedUser.userId(), createScheduleRequest.climbingGymId(), createScheduleRequest.title(), createScheduleRequest.memo(), createScheduleRequest.scheduleDate(), createScheduleRequest.clearList());
+        createScheduleService.createSchedule(authenticatedUser.userId(), ClimbingGymId.from(createScheduleRequest.climbingGymId()), createScheduleRequest.title(), createScheduleRequest.memo(), createScheduleRequest.scheduleDate(), createScheduleRequest.clearList());
     }
 
     @Override

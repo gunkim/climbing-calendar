@@ -1,6 +1,7 @@
 package github.gunkim.climbingcalendar.infrastructure.jpa.user.entity;
 
 import github.gunkim.climbingcalendar.domain.user.model.User;
+import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,7 +30,7 @@ public class UserEntity {
 
     public static UserEntity from(User user) {
         return UserEntity.builder()
-                .id(user.id())
+                .id(user.id().value())
                 .email(user.email())
                 .name(user.name())
                 .profileImage(user.profileImage())
@@ -39,7 +40,7 @@ public class UserEntity {
     }
 
     public User toDomain() {
-        return new User(id, email, name, profileImage, createdAt, updatedAt);
+        return new User(UserId.from(id), email, name, profileImage, createdAt, updatedAt);
     }
 
     @Override

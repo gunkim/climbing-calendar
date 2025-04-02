@@ -1,5 +1,6 @@
 package github.gunkim.climbingcalendar.domain.user.model;
 
+import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import java.time.Instant;
 @ToString
 @Accessors(fluent = true)
 public class User {
-    private final Long id;
+    private final UserId id;
     private String email;
     private String name;
     private String profileImage;
@@ -20,7 +21,7 @@ public class User {
     private Instant updatedAt;
 
     @Builder(access = AccessLevel.PRIVATE)
-    public User(Long id, String email, String name, String profileImage, Instant createdAt, Instant updatedAt) {
+    public User(UserId id, String email, String name, String profileImage, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.email = email;
         this.name = name;

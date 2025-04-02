@@ -15,11 +15,11 @@ public record GetClimbingGymResponse(
 ) {
     public static GetClimbingGymResponse from(ClimbingGym climbingGym) {
         return GetClimbingGymResponse.builder()
-                .id(climbingGym.id())
+                .id(climbingGym.id().value())
                 .name(climbingGym.name())
                 .address(climbingGym.address())
-                .latitude(climbingGym.latitude())
-                .longitude(climbingGym.longitude())
+                .latitude(climbingGym.geo().latitude())
+                .longitude(climbingGym.geo().longitude())
                 .isParkingAvailable(climbingGym.isParkingAvailable())
                 .build();
     }

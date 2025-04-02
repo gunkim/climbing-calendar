@@ -1,6 +1,8 @@
 package github.gunkim.climbingcalendar.domain.climbinggym.service;
 
 import github.gunkim.climbingcalendar.domain.climbinggym.model.Level;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.id.LevelId;
 import github.gunkim.climbingcalendar.domain.climbinggym.repository.LevelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,11 +14,11 @@ import java.util.List;
 public class GetLevelService {
     private final LevelRepository levelRepository;
 
-    public Level getLevel(Long levelId) {
+    public Level getLevel(LevelId levelId) {
         return levelRepository.findById(levelId).orElseThrow();
     }
 
-    public List<Level> getLevels(Long climbingGymId) {
+    public List<Level> getLevels(ClimbingGymId climbingGymId) {
         return levelRepository.findByClimbingGymId(climbingGymId);
     }
 }

@@ -1,5 +1,8 @@
 package github.gunkim.climbingcalendar.domain.schedule.model;
 
+import github.gunkim.climbingcalendar.domain.climbinggym.model.id.LevelId;
+import github.gunkim.climbingcalendar.domain.schedule.model.id.ClearId;
+import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,15 +13,15 @@ import java.time.Instant;
 @Getter
 @Accessors(fluent = true)
 public class Clear {
-    private final Long id;
-    private Long scheduleId;
-    private Long levelId;
+    private final ClearId id;
+    private ScheduleId scheduleId;
+    private LevelId levelId;
     private int count;
     private Instant createdAt;
     private Instant updatedAt;
 
     @Builder(access = AccessLevel.PRIVATE)
-    public Clear(Long id, Long scheduleId, Long levelId, int count, Instant createdAt, Instant updatedAt) {
+    public Clear(ClearId id, ScheduleId scheduleId, LevelId levelId, int count, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.scheduleId = scheduleId;
         this.levelId = levelId;
@@ -27,7 +30,7 @@ public class Clear {
         this.updatedAt = updatedAt;
     }
 
-    public static Clear create(Long scheduleId, Long levelId, int count) {
+    public static Clear create(ScheduleId scheduleId, LevelId levelId, int count) {
         Instant now = Instant.now();
 
         return Clear.builder()

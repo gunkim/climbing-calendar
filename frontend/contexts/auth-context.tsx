@@ -5,6 +5,7 @@ import {createContext, useContext, useEffect, useState} from "react"
 import type {AuthState, User} from "@/types/auth"
 
 interface AuthContextType extends AuthState {
+    isLoading: boolean // 로딩 상태 추가
     loginWithKakao: (token: string) => Promise<boolean>
     logout: () => void
 }
@@ -16,6 +17,7 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
         user: null,
         isAuthenticated: false,
     })
+    const [isLoading, setIsLoading] = useState(true) // 초기 로딩 상태
 
     // 페이지 로드 시 로컬 스토리지에서 사용자 정보 가져오기
     useEffect(() => {
@@ -32,6 +34,7 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
                 localStorage.removeItem("climbingUser")
             }
         }
+        setIsLoading(false) // 로딩 상태 해제
     }, [])
 
     // 카카오 로그인 함수
@@ -51,6 +54,7 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
             const user: User = await response.json()
 
             localStorage.setItem("climbingUser", JSON.stringify(user))
+            localStorage.setItem("token", token)
 
             setAuthState({
                 user,
@@ -74,7 +78,11 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
         })
     }
 
-    return <AuthContext.Provider value={{...authState, loginWithKakao, logout}}>{children}</AuthContext.Provider>
+    return (
+        <AuthContext.Provider value={{...authState, isLoading, loginWithKakao, logout}}>
+            {children}
+        </AuthContext.Provider>
+    )
 }
 
 export function useAuth() {
@@ -84,4 +92,3 @@ export function useAuth() {
     }
     return context
 }
-

@@ -11,7 +11,7 @@ import {useRouter} from "next/navigation"
 import { useToast } from "@/components/ui/use-toast"
 
 export default function HomePage() {
-    const {isAuthenticated} = useAuth()
+    const {isAuthenticated, isLoading} = useAuth() // isAuthLoading 추가
     const {loginWithKakao} = useAuth()
     const router = useRouter()
     const { toast } = useToast()
@@ -56,11 +56,20 @@ export default function HomePage() {
             localStorage.setItem("token", token)
             searchParams.delete("token")
 
-
             const newPath = `${window.location.pathname}?${searchParams.toString()}`
             router.replace(newPath.endsWith("?") ? window.location.pathname : newPath)
         }
     }, [router])
+
+    // 초기 로딩 상태 처리
+    if (isLoading || isLoggingIn) {
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+                <div className="animate-spin rounded-full border-t-4 border-b-4 border-gray-900 h-12 w-12 mb-4"></div>
+                <p className="text-gray-700 text-lg font-medium">데이터를 불러오고 있어요...</p>
+            </div>
+        )
+    }
 
     return (
         <div className="min-h-screen bg-white text-gray-900">
@@ -89,4 +98,3 @@ export default function HomePage() {
         </div>
     )
 }
-

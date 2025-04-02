@@ -12,22 +12,28 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RequestMapping("/api/v1/climbing-gyms")
+interface ClimbingGymResource {
+    @GetMapping
+    List<GetClimbingGymResponse> getClimbingGyms();
+
+    @GetMapping("/{id}/levels")
+    List<GetClimbingGymOfLevelResponse> getClimbingGymOfLevels(@PathVariable long id);
+}
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/climbing-gyms")
-public class ClimbingGymController {
+public class ClimbingGymController implements ClimbingGymResource {
     private final GetClimbingGymService getClimbingGymService;
     private final GetLevelService getLevelService;
 
-    @GetMapping
     public List<GetClimbingGymResponse> getClimbingGyms() {
         return getClimbingGymService.getClimbingGyms().stream()
                 .map(GetClimbingGymResponse::from)
                 .toList();
     }
 
-    @GetMapping("/{id}/levels")
-    public List<GetClimbingGymOfLevelResponse> getClimbingGymOfLevels(@PathVariable("id") Long id) {
+    public List<GetClimbingGymOfLevelResponse> getClimbingGymOfLevels(long id) {
         return getLevelService.getLevels(id).stream()
                 .map(GetClimbingGymOfLevelResponse::from)
                 .toList();

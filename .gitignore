@@ -1,40 +1,31 @@
-HELP.md
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### IntelliJ IDEA ###
+# 공통 - OS/에디터 관련
+.DS_Store
+*.log
+*.swp
+*.swo
 .idea
-*.iws
-*.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
+.gradle
+Thumbs.db
+ehthumbs.db
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# backend - Spring Boot (Gradle 기반)
+backend/build/
+backend/.gradle/
+backend/.idea/
+backend/.vscode/
+backend/.classpath
+backend/.project
+backend/.settings/
+backend/*.iml
+backend/.env
 
-### VS Code ###
-.vscode/
-
-### codebuddy ###
-.codebuddy
+# frontend - Next.js
+frontend/.next/
+frontend/node_modules/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/.vscode/
+frontend/.idea/
+frontend/.eslintcache

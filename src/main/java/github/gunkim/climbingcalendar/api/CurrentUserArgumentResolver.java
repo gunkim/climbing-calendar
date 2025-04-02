@@ -1,5 +1,6 @@
-package github.gunkim.climbingcalendar.config.security;
+package github.gunkim.climbingcalendar.api;
 
+import github.gunkim.climbingcalendar.config.security.CustomOAuth2User;
 import github.gunkim.climbingcalendar.domain.user.model.User;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;

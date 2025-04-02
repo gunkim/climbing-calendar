@@ -3,7 +3,7 @@ package github.gunkim.climbingcalendar.api.schedule;
 import github.gunkim.climbingcalendar.api.schedule.model.requeset.CreateScheduleRequest;
 import github.gunkim.climbingcalendar.api.schedule.model.requeset.UpdateScheduleRequest;
 import github.gunkim.climbingcalendar.api.schedule.model.response.GetScheduleResponse;
-import github.gunkim.climbingcalendar.config.security.CurrentUser;
+import github.gunkim.climbingcalendar.api.CurrentUser;
 import github.gunkim.climbingcalendar.domain.schedule.service.*;
 import github.gunkim.climbingcalendar.domain.user.model.User;
 import lombok.RequiredArgsConstructor;

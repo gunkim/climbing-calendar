@@ -1,6 +1,6 @@
 package github.gunkim.climbingcalendar.config;
 
-import github.gunkim.climbingcalendar.config.security.CurrentUserArgumentResolver;
+import github.gunkim.climbingcalendar.api.CurrentUserArgumentResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

@@ -1,4 +1,4 @@
-package github.gunkim.climbingcalendar.config.security;
+package github.gunkim.climbingcalendar.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

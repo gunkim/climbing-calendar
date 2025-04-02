@@ -2,23 +2,20 @@ spring:
   application:
     name: climbing-calendar
   profiles:
-    active: local
+    active: local-h2
     group:
-      local:
+      local-h2:
         - local-h2-datasource
+        - local-jwt
+        - local-frontend
+      local-mysql:
+        - local-mysql-datasource
         - local-jwt
         - local-frontend
     include:
       - oauth
       - datasource
       - jwt
-debug: true
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
-        security.oauth2: DEBUG
 ---
 sprinG:
   config:

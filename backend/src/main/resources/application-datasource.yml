@@ -1,6 +1,11 @@
 spring:
   jpa:
     open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  sql:
+    init:
+      mode: never
 ---
 spring:
   config:
@@ -13,9 +18,24 @@ spring:
     password:
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: none
   sql:
     init:
       mode: always
       schema-locations: classpath:schema.sql
+  h2:
+    console:
+      enabled: true
+---
+spring:
+  config:
+    activate:
+      on-profile: local-mysql-datasource
+  datasource:
+    url: jdbc:mysql://localhost:3306/climbing
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: climbing
+    password: 1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none

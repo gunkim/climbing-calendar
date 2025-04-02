@@ -72,6 +72,7 @@ public class SecurityConfig {
     }
 
     private void configureHttpPermissions(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry requestMatcherRegistry) {
+        requestMatcherRegistry.requestMatchers("/h2-console/**").permitAll();
         requestMatcherRegistry.anyRequest().authenticated();
     }
 

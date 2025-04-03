@@ -2,7 +2,7 @@ package github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.entity;
 
 import github.gunkim.climbingcalendar.domain.climbinggym.model.ClimbingGym;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
-import github.gunkim.climbingcalendar.domain.climbinggym.model.vo.Geo;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.vo.GeoLocation;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity(name = "climbing_gym")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,11 +43,11 @@ public class ClimbingGymEntity {
 
     public static ClimbingGymEntity from(ClimbingGym climbingGym) {
         return ClimbingGymEntity.builder()
-                .id(climbingGym.id().value())
+                .id(Optional.ofNullable(climbingGym.id()).map(ClimbingGymId::value).orElse(null))
                 .name(climbingGym.name())
                 .address(climbingGym.address())
-                .latitude(climbingGym.geo().latitude())
-                .longitude(climbingGym.geo().longitude())
+                .latitude(climbingGym.geoLocation().latitude())
+                .longitude(climbingGym.geoLocation().longitude())
                 .isParkingAvailable(climbingGym.isParkingAvailable())
                 .createdAt(climbingGym.createdAt())
                 .updatedAt(climbingGym.updatedAt())
@@ -54,7 +55,7 @@ public class ClimbingGymEntity {
     }
 
     public ClimbingGym toDomain() {
-        return new ClimbingGym(ClimbingGymId.from(id), name, address, Geo.from(latitude, longitude), isParkingAvailable, createdAt, updatedAt);
+        return new ClimbingGym(ClimbingGymId.from(id), name, address, GeoLocation.from(latitude, longitude), isParkingAvailable, createdAt, updatedAt);
     }
 
     @Override

@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity(name = "schedule")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -43,7 +44,7 @@ public class ScheduleEntity {
 
     public static ScheduleEntity from(Schedule schedule) {
         return ScheduleEntity.builder()
-                .id(schedule.id().value())
+                .id(Optional.ofNullable(schedule.id()).map(ScheduleId::value).orElse(null))
                 .userId(schedule.userId().value())
                 .climbingGymId(schedule.climbingGymId().value())
                 .title(schedule.title())

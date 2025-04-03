@@ -43,7 +43,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
-    testImplementation("org.mule.weave:assertions:2.9.0")
+    testImplementation("org.assertj:assertj-core:3.27.3")
 }
 
 tasks.withType<Test> {

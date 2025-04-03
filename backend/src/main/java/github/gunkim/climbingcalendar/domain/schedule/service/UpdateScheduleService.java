@@ -21,6 +21,7 @@ public class UpdateScheduleService {
 
     public void updateSchedule(ScheduleId id, ClimbingGymId climbingGymId, String title, Instant scheduleDate, String memo, List<ClearItem> clears) {
         Schedule schedule = saveSchedule(id, climbingGymId, title, scheduleDate, memo);
+        scheduleRepository.save(schedule);
         saveClears(id, clears);
     }
 

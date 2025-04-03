@@ -9,5 +9,7 @@ public interface ClearDao extends JpaRepository<ClearEntity, Long> {
 
     List<ClearEntity> findByScheduleId(Long scheduleId);
 
+    List<ClearEntity> findByScheduleIdIn(List<Long> scheduleIds);
+
     void deleteByScheduleId(Long scheduleId);
 }

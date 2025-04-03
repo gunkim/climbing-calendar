@@ -2,8 +2,7 @@ export interface ClimbingEvent {
   id: string
   title: string
   date: string
-  type: "bouldering" | "lead" | "training"
-  location: string
+  gymId: number | undefined
   notes: string
   difficulties: {
     // 기본 난이도

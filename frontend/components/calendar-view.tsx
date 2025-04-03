@@ -24,6 +24,7 @@ import type { ClimbingEvent } from "@/types/climbing-event"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { motion, AnimatePresence } from "framer-motion"
 import { getDifficultySystemByGymName } from "@/data/gym-difficulty-systems"
+import {GetClimbingGymResponse, GetScheduleResponse} from "@/apis/climbing-gym";
 
 // 단일 색상 베이스의 파스텔 색상 정의 (라이트 테마)
 const pastelShades = {
@@ -76,7 +77,7 @@ export function CalendarView() {
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [selectedEvent, setSelectedEvent] = useState<ClimbingEvent | null>(null)
+  const [selectedEvent, setSelectedEvent] = useState<GetScheduleResponse | null>(null)
   const [animationDirection, setAnimationDirection] = useState<"left" | "right">("right")
 
   const { events, addEvent, updateEvent, deleteEvent } = useClimbingEvents()
@@ -101,24 +102,24 @@ export function CalendarView() {
     setIsDialogOpen(true)
   }
 
-  const handleEventClick = (event: ClimbingEvent) => {
+  const handleEventClick = (event: GetScheduleResponse) => {
     setSelectedEvent(event)
-    setSelectedDate(new Date(event.date))
+    setSelectedDate(new Date(event.scheduleDate))
     setIsDialogOpen(true)
   }
 
   const getEventsForDay = (day: Date) => {
-    return events.filter((event) => isSameDay(new Date(event.date), day))
+    return events.filter((event) => isSameDay(new Date(event.scheduleDate), day))
   }
 
   // 일자별 난이도 클리어 횟수 합계 계산
-  const getDifficultyCountsForDay = (events: ClimbingEvent[]) => {
+  const getDifficultyCountsForDay = (events: GetScheduleResponse[]) => {
     const counts: Record<string, number> = {}
 
     events.forEach((event) => {
-      if (event.difficulties) {
+      if (event.clearList) {
         // 해당 암장의 난이도 시스템 가져오기
-        const diffSystem = getDifficultySystemByGymName(event.location)
+        const diffSystem = getDifficultySystemByGymName("")
 
         // 해당 난이도 시스템의 모든 난이도에 대해 카운트 초기화
         diffSystem.difficulties.forEach((diff) => {
@@ -128,11 +129,11 @@ export function CalendarView() {
         })
 
         // 이벤트의 난이도 카운트 합산
-        Object.keys(event.difficulties).forEach((color) => {
-          if (event.difficulties[color] !== undefined) {
-            counts[color] = (counts[color] || 0) + (event.difficulties[color] || 0)
-          }
-        })
+        // Object.keys(event.clearList).forEach((color) => {
+        //   if (event.clearList !== undefined) {
+        //     counts[color] = (counts[color] || 0) + (event.climbingGymId[color] || 0)
+        //   }
+        // })
       }
     })
 
@@ -228,10 +229,10 @@ export function CalendarView() {
             const dayColor = dayColors[dayOfWeek]
 
             // 해당 날짜의 모든 암장 목록
-            const gymsForDay = Array.from(new Set(dayEvents.map((e) => e.location)))
+            const gymsForDay = Array.from(new Set(dayEvents.map((e) => e.climbingGymId)))
 
             // 해당 날짜의 모든 암장에 대한 난이도 시스템 가져오기
-            const difficultySystemsForDay = gymsForDay.map((gym) => getDifficultySystemByGymName(gym))
+            const difficultySystemsForDay = gymsForDay.map((gym) => getDifficultySystemByGymName("gym"))
 
             // 모든 난이도 색상 정보 합치기 (중복 제거)
             const allDifficultiesForDay = Array.from(
@@ -286,7 +287,7 @@ export function CalendarView() {
                   <div className="mt-1 space-y-1">
                     {/* 이벤트 목록 */}
                     {dayEvents.slice(0, 2).map((event) => {
-                      const eventStyle = eventTypeStyles[event.type]
+                      const eventStyle = eventTypeStyles["bouldering"]
 
                       return (
                         <TooltipProvider key={event.id}>
@@ -313,15 +314,15 @@ export function CalendarView() {
                                 <div className="font-bold text-base text-sky-700">{event.title}</div>
                                 <div className="flex items-center text-sm text-gray-700">
                                   <MapPin className="h-3 w-3 mr-1 opacity-70" />
-                                  {event.location}
+                                  {event.climbingGymId}
                                 </div>
                                 <div className="flex items-center text-sm text-gray-700">
                                   <Clock className="h-3 w-3 mr-1 opacity-70" />
-                                  {format(parseISO(event.date), "yyyy년 MM월 dd일")}
+                                  {format(parseISO(event.scheduleDate), "yyyy년 MM월 dd일")}
                                 </div>
-                                {event.notes && (
+                                {event.memo && (
                                   <div className="text-sm border-t border-gray-100 pt-1 mt-1 text-gray-600">
-                                    {event.notes}
+                                    {event.memo}
                                   </div>
                                 )}
                               </div>

@@ -21,4 +21,12 @@ public class GetLevelService {
     public List<Level> getLevels(ClimbingGymId climbingGymId) {
         return levelRepository.findByClimbingGymId(climbingGymId);
     }
+
+    public List<Level> getLevels() {
+        return levelRepository.findAll();
+    }
+
+    public List<Level> getLevels(List<LevelId> levelIds) {
+        return levelRepository.findByIdsIn(levelIds);
+    }
 }

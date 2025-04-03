@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity(name = "clear")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -39,7 +40,7 @@ public class ClearEntity {
 
     public static ClearEntity from(Clear clear) {
         return ClearEntity.builder()
-                .id(clear.id().value())
+                .id(Optional.ofNullable(clear.id()).map(ClearId::value).orElse(null))
                 .scheduleId(clear.scheduleId().value())
                 .levelId(clear.levelId().value())
                 .count(clear.count())

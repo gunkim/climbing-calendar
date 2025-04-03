@@ -4,6 +4,7 @@ import github.gunkim.climbingcalendar.domain.climbinggym.model.id.LevelId;
 import github.gunkim.climbingcalendar.domain.schedule.model.Clear;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ClearId;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
+import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity(name = "clear")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -39,7 +41,7 @@ public class ClearEntity {
 
     public static ClearEntity from(Clear clear) {
         return ClearEntity.builder()
-                .id(clear.id().value())
+                .id(Optional.ofNullable(clear.id()).map(ClearId::value).orElse(null))
                 .scheduleId(clear.scheduleId().value())
                 .levelId(clear.levelId().value())
                 .count(clear.count())

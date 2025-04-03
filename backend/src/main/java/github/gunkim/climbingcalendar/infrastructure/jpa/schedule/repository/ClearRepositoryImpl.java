@@ -8,6 +8,7 @@ import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.dao.ClearDao;
 import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.entity.ClearEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,7 @@ public class ClearRepositoryImpl implements ClearRepository {
     }
 
     @Override
+    @Transactional
     public void deleteByScheduleId(ScheduleId scheduleId) {
         clearDao.deleteByScheduleId(scheduleId.value());
     }

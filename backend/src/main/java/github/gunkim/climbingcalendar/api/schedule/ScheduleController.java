@@ -35,10 +35,10 @@ interface ScheduleResource {
     void createSchedule(@AuthenticationPrincipal AuthenticatedUser authenticatedUser, @RequestBody CreateScheduleRequest createScheduleRequest);
 
     @PutMapping("/{id}")
-    void updateSchedule(@PathVariable Long id, @RequestBody UpdateScheduleRequest updateScheduleRequest);
+    void updateSchedule(@AuthenticationPrincipal AuthenticatedUser authenticatedUser, @PathVariable Long id, @RequestBody UpdateScheduleRequest updateScheduleRequest);
 
     @DeleteMapping("/{id}")
-    void deleteSchedule(@PathVariable Long id);
+    void deleteSchedule(@AuthenticationPrincipal AuthenticatedUser authenticatedUser, @PathVariable Long id);
 }
 
 @RestController
@@ -66,16 +66,16 @@ public class ScheduleController implements ScheduleResource {
     }
 
     @Override
-    public void updateSchedule(Long id, UpdateScheduleRequest updateScheduleRequest) {
+    public void updateSchedule(AuthenticatedUser authenticatedUser, Long id, UpdateScheduleRequest updateScheduleRequest) {
         var clearCommands = updateScheduleRequest.clearList().stream()
                 .map(ClearItem::toClearCommand)
                 .toList();
-        updateScheduleService.updateSchedule(ScheduleId.from(id), ClimbingGymId.from(updateScheduleRequest.climbingGymId()),
+        updateScheduleService.updateSchedule(ScheduleId.from(id), authenticatedUser.userId(), ClimbingGymId.from(updateScheduleRequest.climbingGymId()),
                 updateScheduleRequest.title(), updateScheduleRequest.scheduleDate(), updateScheduleRequest.memo(), clearCommands);
     }
 
     @Override
-    public void deleteSchedule(Long id) {
+    public void deleteSchedule(AuthenticatedUser authenticatedUser, Long id) {
         deleteScheduleService.deleteSchedule(ScheduleId.from(id));
     }
 }

@@ -5,7 +5,6 @@ import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.LevelId;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.vo.Color;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.vo.Grade;
-import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

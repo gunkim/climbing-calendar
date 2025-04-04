@@ -70,5 +70,4 @@ public class ClimbingGymEntity {
     public int hashCode() {
         return Objects.hash(id, name, address, latitude, longitude, isParkingAvailable, createdAt, updatedAt);
     }
-
 }

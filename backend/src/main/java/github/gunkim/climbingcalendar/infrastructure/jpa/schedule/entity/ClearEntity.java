@@ -4,7 +4,6 @@ import github.gunkim.climbingcalendar.domain.climbinggym.model.id.LevelId;
 import github.gunkim.climbingcalendar.domain.schedule.model.Clear;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ClearId;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
-import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

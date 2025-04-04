@@ -27,6 +27,6 @@ public class GetLevelService {
     }
 
     public List<Level> getLevels(List<LevelId> levelIds) {
-        return levelRepository.findAllByIdsIn(levelIds);
+        return levelRepository.findAllByIdIn(levelIds);
     }
 }

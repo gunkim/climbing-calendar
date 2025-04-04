@@ -11,6 +11,7 @@ import github.gunkim.climbingcalendar.domain.schedule.service.CreateScheduleServ
 import github.gunkim.climbingcalendar.domain.schedule.service.DeleteScheduleService;
 import github.gunkim.climbingcalendar.domain.schedule.service.ScheduleWithClimbingGymReader;
 import github.gunkim.climbingcalendar.domain.schedule.service.UpdateScheduleService;
+import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -76,6 +77,6 @@ public class ScheduleController implements ScheduleResource {
 
     @Override
     public void deleteSchedule(AuthenticatedUser authenticatedUser, Long id) {
-        deleteScheduleService.deleteSchedule(ScheduleId.from(id));
+        deleteScheduleService.deleteSchedule(ScheduleId.from(id), authenticatedUser.userId());
     }
 }

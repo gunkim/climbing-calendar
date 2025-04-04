@@ -23,6 +23,6 @@ public class GetClearService {
     }
 
     public List<Clear> getClears(List<ScheduleId> scheduleIds){
-        return  clearRepository.findByScheduleIdIn(scheduleIds);
+        return  clearRepository.findAllByScheduleIdIn(scheduleIds);
     }
 }

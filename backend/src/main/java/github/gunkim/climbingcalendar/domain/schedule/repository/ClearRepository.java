@@ -18,5 +18,5 @@ public interface ClearRepository {
 
     List<Clear> findByScheduleId(ScheduleId scheduleId);
 
-    List<Clear> findByScheduleIdIn(List<ScheduleId> scheduleIds);
+    List<Clear> findAllByScheduleIdIn(List<ScheduleId> scheduleIds);
 }

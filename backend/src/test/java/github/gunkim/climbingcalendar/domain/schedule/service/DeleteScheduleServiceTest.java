@@ -21,8 +21,6 @@ class DeleteScheduleServiceTest extends DomainTest {
 
     @BeforeEach
     void setUp() {
-        scheduleRepository = new InMemoryScheduleRepository();
-        clearRepository = new InMemoryClearRepository();
         var getScheduleService = new GetScheduleService(scheduleRepository);
         sut = new DeleteScheduleService(scheduleRepository, clearRepository, getScheduleService);
     }

@@ -40,7 +40,7 @@ public class ClearRepositoryImpl implements ClearRepository {
     }
 
     @Override
-    public List<Clear> findByScheduleId(ScheduleId scheduleId) {
+    public List<Clear> findAllByScheduleId(ScheduleId scheduleId) {
         return clearDao.findByScheduleId(scheduleId.value()).stream()
                 .map(ClearEntity::toDomain)
                 .toList();

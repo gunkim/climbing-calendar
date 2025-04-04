@@ -23,6 +23,11 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     }
 
     @Override
+    public Schedule update(Schedule schedule) {
+        return save(schedule);
+    }
+
+    @Override
     public void deleteById(ScheduleId scheduleId) {
         scheduleDao.deleteById(scheduleId.value());
     }

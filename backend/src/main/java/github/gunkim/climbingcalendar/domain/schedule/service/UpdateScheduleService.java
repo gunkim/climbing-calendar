@@ -1,41 +1,46 @@
 package github.gunkim.climbingcalendar.domain.schedule.service;
 
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
-import github.gunkim.climbingcalendar.domain.schedule.model.ClearItem;
+import github.gunkim.climbingcalendar.domain.schedule.model.ClearCommand;
 import github.gunkim.climbingcalendar.domain.schedule.model.Schedule;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
-import github.gunkim.climbingcalendar.domain.schedule.repository.ClearRepository;
 import github.gunkim.climbingcalendar.domain.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UpdateScheduleService {
-    private final ScheduleRepository scheduleRepository;
-    private final ClearRepository clearRepository;
     private final GetScheduleService getScheduleService;
+    private final UpdateClearService updateClearService;
+    private final ScheduleRepository scheduleRepository;
 
-    public void updateSchedule(ScheduleId id, ClimbingGymId climbingGymId, String title, Instant scheduleDate, String memo, List<ClearItem> clears) {
-        Schedule schedule = saveSchedule(id, climbingGymId, title, scheduleDate, memo);
-        scheduleRepository.save(schedule);
-        saveClears(id, clears);
+    public Schedule updateSchedule(ScheduleId scheduleId,
+                                   ClimbingGymId climbingGymId,
+                                   String title,
+                                   Instant scheduleDate,
+                                   String memo,
+                                   List<ClearCommand> clearCommands) {
+        Schedule updatedSchedule = updateSchedule(scheduleId, climbingGymId, title, scheduleDate, memo);
+        scheduleRepository.update(updatedSchedule);
+
+        updateClearService.updateClears(scheduleId, clearCommands);
+        return updatedSchedule;
     }
 
-    private Schedule saveSchedule(ScheduleId id, ClimbingGymId climbingGymId, String title, Instant scheduleDate, String memo) {
-        Schedule schedule = scheduleRepository.save(getScheduleService.getSchedule(id));
+    private Schedule updateSchedule(ScheduleId scheduleId,
+                                    ClimbingGymId climbingGymId,
+                                    String title,
+                                    Instant scheduleDate,
+                                    String memo) {
+        Schedule schedule = getScheduleService.getScheduleById(scheduleId);
         schedule.update(climbingGymId, title, memo, scheduleDate);
+
         return schedule;
-
-    }
-
-    private void saveClears(ScheduleId scheduleId, List<ClearItem> clears) {
-        clearRepository.deleteByScheduleId(scheduleId);
-        clearRepository.saveAll(clears.stream()
-                .map(clear -> clear.toClear(scheduleId))
-                .toList());
     }
 }

@@ -2,7 +2,7 @@ spring:
   application:
     name: climbing-calendar
   profiles:
-    active: local-mysql
+    active: local-h2
     group:
       local-h2:
         - local-h2-datasource

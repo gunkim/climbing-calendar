@@ -3,6 +3,7 @@ package github.gunkim.climbingcalendar.domain.schedule.service;
 import github.gunkim.climbingcalendar.domain.DomainTest;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.LevelId;
+import github.gunkim.climbingcalendar.domain.schedule.exception.UnauthorizedScheduleException;
 import github.gunkim.climbingcalendar.domain.schedule.model.ClearCommand;
 import github.gunkim.climbingcalendar.domain.schedule.model.Schedule;
 import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
@@ -15,8 +16,7 @@ import org.junit.jupiter.api.Test;
 import java.time.Instant;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("UpdateScheduleService")
 class UpdateScheduleServiceTest extends DomainTest {
@@ -37,6 +37,7 @@ class UpdateScheduleServiceTest extends DomainTest {
 
         var updatedSchedule = sut.updateSchedule(
                 originalSchedule.id(),
+                originalSchedule.userId(),
                 originalSchedule.climbingGymId(),
                 "Updated Title",
                 Instant.parse("2025-05-05T00:00:00Z"),
@@ -45,6 +46,24 @@ class UpdateScheduleServiceTest extends DomainTest {
         );
 
         assertScheduleUpdate(originalSchedule, updatedSchedule);
+    }
+
+    @Test
+    void 사용자의_스케줄이_아니면_업데이트_되지않는다() {
+        var originalSchedule = createAndSaveInitialSchedule();
+
+        assertThrows(UnauthorizedScheduleException.class, () ->
+                        sut.updateSchedule(
+                                originalSchedule.id(),
+                                UserId.from(2L), // 잘못된 사용자 ID
+                                originalSchedule.climbingGymId(),
+                                "Updated Title",
+                                Instant.parse("2025-05-05T00:00:00Z"),
+                                "Updated Memo",
+                                List.of(new ClearCommand(LevelId.from(1L), 12))
+                        ),
+                "스케줄 소유자가 아닌 사용자가 업데이트를 시도하면 UnauthorizedScheduleException이 발생해야 합니다."
+        );
     }
 
     private Schedule createAndSaveInitialSchedule() {

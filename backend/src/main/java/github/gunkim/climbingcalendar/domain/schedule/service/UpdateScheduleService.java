@@ -43,9 +43,7 @@ public class UpdateScheduleService {
                                     Instant scheduleDate,
                                     String memo) {
         Schedule schedule = getScheduleService.getScheduleById(scheduleId);
-        if (!schedule.userId().equals(userId)) {
-            throw new UnauthorizedScheduleException("User is not authorized to update this schedule.");
-        }
+        schedule.validateUserAuthorization(userId);
         schedule.update(climbingGymId, title, memo, scheduleDate);
 
         return schedule;

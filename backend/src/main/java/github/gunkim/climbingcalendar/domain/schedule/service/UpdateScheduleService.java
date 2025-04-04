@@ -1,7 +1,6 @@
 package github.gunkim.climbingcalendar.domain.schedule.service;
 
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
-import github.gunkim.climbingcalendar.domain.schedule.exception.UnauthorizedScheduleException;
 import github.gunkim.climbingcalendar.domain.schedule.model.ClearCommand;
 import github.gunkim.climbingcalendar.domain.schedule.model.Schedule;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;

@@ -46,7 +46,8 @@ public class ScheduleController implements ScheduleResource {
     public List<GetScheduleResponse> getSchedules(AuthenticatedUser authenticatedUser) {
         List<ScheduleWithClear> scheduleWithClears = scheduleWithClearReader.getSchedulWithClears(authenticatedUser.userId());
         return scheduleWithClears.stream()
-                .map(GetScheduleResponse::from).toList();
+                .map(GetScheduleResponse::from)
+                .toList();
     }
 
     @Override

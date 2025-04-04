@@ -6,6 +6,7 @@ import github.gunkim.climbingcalendar.api.schedule.model.requeset.UpdateSchedule
 import github.gunkim.climbingcalendar.api.schedule.model.response.GetScheduleResponse;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
 import github.gunkim.climbingcalendar.domain.schedule.model.ClearWithLevel;
+import github.gunkim.climbingcalendar.domain.schedule.model.ScheduleWithClear;
 import github.gunkim.climbingcalendar.domain.schedule.model.ScheduleWithClimbingGym;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
 import github.gunkim.climbingcalendar.domain.schedule.service.*;
@@ -36,22 +37,15 @@ public class ScheduleController implements ScheduleResource {
     private final CreateScheduleService createScheduleService;
     private final UpdateScheduleService updateScheduleService;
     private final DeleteScheduleService deleteScheduleService;
-    private final ScheduleWithClimbingGymReader scheduleWithClimbingGymReader;
-    private final ClearWithLevelReader clearWithLevelReader;
+    private final ScheduleWithClearReader scheduleWithClearReader;
 
     @Override
     public List<GetScheduleResponse> getSchedules(AuthenticatedUser authenticatedUser) {
-        List<ScheduleWithClimbingGym> scheduleWithClimbingGyms = scheduleWithClimbingGymReader.getSchedules(authenticatedUser.userId());
-        List<ClearWithLevel> clearWithLevels = clearWithLevelReader.getClears(scheduleWithClimbingGyms.stream()
-                .map(scheduleWithClimbingGym -> scheduleWithClimbingGym.schedule().id())
-                .toList());
-
-        return scheduleWithClimbingGyms.stream()
-                .map(scheduleWithClimbingGym -> GetScheduleResponse.from(
-                        scheduleWithClimbingGym,
-                        clearWithLevels.stream()
-                                .filter(clearWithLevel -> clearWithLevel.clear().scheduleId().equals(scheduleWithClimbingGym.schedule().id()))
-                        .toList()
+        List<ScheduleWithClear> scheduleWithClears = scheduleWithClearReader.getSchedulWithClears(authenticatedUser.userId());
+        return scheduleWithClears.stream()
+                .map(scheduleWithClear -> GetScheduleResponse.from(
+                        scheduleWithClear.scheduleWithClimbingGym(),
+                        scheduleWithClear.clearWithLevels()
                 )).toList();
     }
 

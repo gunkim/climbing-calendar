@@ -18,13 +18,13 @@ public class ScheduleWithClimbingGymReader {
     private final GetClimbingGymService getClimbingGymService;
 
     public ScheduleWithClimbingGym getSchedule(ScheduleId scheduleId) {
-        Schedule schedule = getScheduleService.getSchedule(scheduleId);
+        Schedule schedule = getScheduleService.getScheduleById(scheduleId);
         ClimbingGym climbingGym = getClimbingGymService.getClimbingGym(schedule.climbingGymId());
         return new ScheduleWithClimbingGym(schedule, climbingGym);
     }
 
     public List<ScheduleWithClimbingGym> getSchedules(UserId userId) {
-        return getScheduleService.getSchedules(userId).stream()
+        return getScheduleService.getSchedulesByUserId(userId).stream()
                 .map(schedule -> new ScheduleWithClimbingGym(schedule, getClimbingGymService.getClimbingGym(schedule.climbingGymId())))
                 .toList();
     }

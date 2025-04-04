@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static github.gunkim.climbingcalendar.api.schedule.model.requeset.UpdateScheduleRequest.ClearItem;
+
 @RequestMapping("/api/v1/schedules")
 interface ScheduleResource {
     @GetMapping
@@ -44,22 +46,22 @@ public class ScheduleController implements ScheduleResource {
     public List<GetScheduleResponse> getSchedules(AuthenticatedUser authenticatedUser) {
         List<ScheduleWithClear> scheduleWithClears = scheduleWithClearReader.getSchedulWithClears(authenticatedUser.userId());
         return scheduleWithClears.stream()
-                .map(scheduleWithClear -> GetScheduleResponse.from(
-                        scheduleWithClear.scheduleWithClimbingGym(),
-                        scheduleWithClear.clearWithLevels()
-                )).toList();
+                .map(GetScheduleResponse::from).toList();
     }
 
     @Override
     public void createSchedule(AuthenticatedUser authenticatedUser, CreateScheduleRequest createScheduleRequest) {
-        createScheduleService.createSchedule(authenticatedUser.userId(), ClimbingGymId.from(createScheduleRequest.climbingGymId()), createScheduleRequest.title(),
-                createScheduleRequest.memo(), createScheduleRequest.scheduleDate(), createScheduleRequest.clearList());
+        createScheduleService.createSchedule(authenticatedUser.userId(), ClimbingGymId.from(createScheduleRequest.climbingGymId()),
+                createScheduleRequest.title(), createScheduleRequest.memo(), createScheduleRequest.scheduleDate(), createScheduleRequest.clearList());
     }
 
     @Override
     public void updateSchedule(Long id, UpdateScheduleRequest updateScheduleRequest) {
-        updateScheduleService.updateSchedule(ScheduleId.from(id), ClimbingGymId.from(updateScheduleRequest.climbingGymId()), updateScheduleRequest.title(),
-                updateScheduleRequest.scheduleDate(), updateScheduleRequest.memo(), updateScheduleRequest.clearList());
+        var clearCommands = updateScheduleRequest.clearList().stream()
+                .map(ClearItem::toClearCommand)
+                .toList();
+        updateScheduleService.updateSchedule(ScheduleId.from(id), ClimbingGymId.from(updateScheduleRequest.climbingGymId()),
+                updateScheduleRequest.title(), updateScheduleRequest.scheduleDate(), updateScheduleRequest.memo(), clearCommands);
     }
 
     @Override

@@ -19,7 +19,7 @@ public class GetClearService {
     }
 
     public List<Clear> getClears(ScheduleId scheduleId){
-        return clearRepository.findByScheduleId(scheduleId);
+        return clearRepository.findAllByScheduleId(scheduleId);
     }
 
     public List<Clear> getClears(List<ScheduleId> scheduleIds){

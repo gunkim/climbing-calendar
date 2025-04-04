@@ -6,11 +6,18 @@ import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.time.Instant;
 
+import static java.util.Objects.requireNonNull;
+
+/**
+ * 일정을 나타내는 도메인 클래스입니다.
+ */
 @Getter
+@ToString
 @Accessors(fluent = true)
 public class Schedule {
     private final ScheduleId id;
@@ -23,37 +30,46 @@ public class Schedule {
     private Instant updatedAt;
 
     @Builder(access = AccessLevel.PRIVATE)
-    public Schedule(ScheduleId id, UserId userId, ClimbingGymId climbingGymId, String title, String memo, Instant scheduleDate, Instant createdAt, Instant updatedAt) {
+    public Schedule(ScheduleId id,
+                    UserId userId,
+                    ClimbingGymId climbingGymId,
+                    String title,
+                    String memo,
+                    Instant scheduleDate,
+                    Instant createdAt,
+                    Instant updatedAt) {
         this.id = id;
-        this.userId = userId;
-        this.climbingGymId = climbingGymId;
-        this.title = title;
+        this.userId = requireNonNull(userId, "UserId cannot be null");
+        this.climbingGymId = requireNonNull(climbingGymId, "ClimbingGymId cannot be null");
+        this.title = requireNonNull(title, "Title cannot be null");
         this.memo = memo;
-        this.scheduleDate = scheduleDate;
+        this.scheduleDate = requireNonNull(scheduleDate, "ScheduleDate cannot be null");
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public static Schedule create(UserId userId, ClimbingGymId climbingGymId, String title, String memo, Instant scheduleDate) {
-        Instant now = Instant.now();
-
+    public static Schedule create(UserId userId,
+                                  ClimbingGymId climbingGymId,
+                                  String title,
+                                  String memo,
+                                  Instant scheduleDate) {
+        Instant currentTime = Instant.now();
         return Schedule.builder()
                 .userId(userId)
                 .climbingGymId(climbingGymId)
                 .title(title)
                 .memo(memo)
                 .scheduleDate(scheduleDate)
-                .createdAt(now)
-                .updatedAt(now)
+                .createdAt(currentTime)
+                .updatedAt(currentTime)
                 .build();
     }
 
     public void update(ClimbingGymId climbingGymId, String title, String memo, Instant scheduleDate) {
-        Instant now = Instant.now();
-        this.climbingGymId = climbingGymId;
-        this.title = title;
+        this.climbingGymId = requireNonNull(climbingGymId, "ClimbingGymId cannot be null");
+        this.title = requireNonNull(title, "Title cannot be null");
         this.memo = memo;
-        this.scheduleDate = scheduleDate;
-        this.updatedAt = now;
+        this.scheduleDate = requireNonNull(scheduleDate, "ScheduleDate cannot be null");
+        this.updatedAt = Instant.now();
     }
 }

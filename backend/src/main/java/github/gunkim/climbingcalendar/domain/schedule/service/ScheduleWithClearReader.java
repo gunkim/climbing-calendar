@@ -21,18 +21,36 @@ public class ScheduleWithClearReader {
     private final ClearWithLevelReader clearWithLevelReader;
 
     public List<ScheduleWithClear> getScheduleWithClears(UserId userId) {
-        List<ScheduleWithClimbingGym> scheduleWithClimbingGyms = scheduleWithClimbingGymReader.getSchedules(userId);
-        Map<ScheduleId, List<ClearWithLevel>> clearWithLevelsMap = clearWithLevelReader.getClears(
-                        scheduleWithClimbingGyms.stream()
-                                .map(scheduleWithClimbingGym -> scheduleWithClimbingGym.schedule().id())
-                                .toList())
-                .stream()
-                .collect(groupingBy(clearWithLevel -> clearWithLevel.clear().scheduleId()));
+        List<ScheduleWithClimbingGym> schedules = getSchedulesForUser(userId);
+        Map<ScheduleId, List<ClearWithLevel>> clearsMap = getClearsMappedBySchedule(schedules);
 
-        return scheduleWithClimbingGyms.stream()
-                .map(scheduleWithClimbingGym -> new ScheduleWithClear(
-                        scheduleWithClimbingGym,
-                        clearWithLevelsMap.get(scheduleWithClimbingGym.schedule().id())
-                )).toList();
+        return mergeSchedulesWithClears(schedules, clearsMap);
+    }
+
+    private List<ScheduleWithClimbingGym> getSchedulesForUser(UserId userId) {
+        return scheduleWithClimbingGymReader.getSchedules(userId);
+    }
+
+    private Map<ScheduleId, List<ClearWithLevel>> getClearsMappedBySchedule(
+            List<ScheduleWithClimbingGym> schedules) {
+        List<ScheduleId> scheduleIds = schedules.stream()
+                .map(schedule -> schedule.schedule().id())
+                .toList();
+
+        return clearWithLevelReader.getClears(scheduleIds).stream()
+                .collect(groupingBy(clear -> clear.clear().scheduleId()));
+    }
+
+    private List<ScheduleWithClear> mergeSchedulesWithClears(
+            List<ScheduleWithClimbingGym> schedules,
+            Map<ScheduleId, List<ClearWithLevel>> clearsMap) {
+
+        return schedules.stream()
+                .map(schedule -> new ScheduleWithClear(
+                        schedule,
+                        clearsMap.getOrDefault(schedule.schedule().id(), List.of()) // null 방지
+                ))
+                .toList();
     }
 }
+

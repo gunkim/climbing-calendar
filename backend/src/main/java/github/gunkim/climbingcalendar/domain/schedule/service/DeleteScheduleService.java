@@ -1,6 +1,5 @@
 package github.gunkim.climbingcalendar.domain.schedule.service;
 
-import github.gunkim.climbingcalendar.domain.schedule.exception.UnauthorizedScheduleException;
 import github.gunkim.climbingcalendar.domain.schedule.model.Schedule;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
 import github.gunkim.climbingcalendar.domain.schedule.repository.ClearRepository;
@@ -18,9 +17,7 @@ public class DeleteScheduleService {
 
     public void deleteSchedule(ScheduleId scheduleId, UserId userId) {
         Schedule schedule = getScheduleService.getScheduleById(scheduleId);
-        if (!schedule.userId().equals(userId)) {
-            throw new UnauthorizedScheduleException("User is not authorized to delete this schedule.");
-        }
+        schedule.validateUserAuthorization(userId);
         scheduleRepository.deleteById(scheduleId);
         clearRepository.deleteByScheduleId(scheduleId);
     }

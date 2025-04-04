@@ -1,6 +1,7 @@
 package github.gunkim.climbingcalendar.domain.schedule.service;
 
 import github.gunkim.climbingcalendar.domain.climbinggym.model.Level;
+import github.gunkim.climbingcalendar.domain.climbinggym.model.id.LevelId;
 import github.gunkim.climbingcalendar.domain.climbinggym.service.GetLevelService;
 import github.gunkim.climbingcalendar.domain.schedule.model.Clear;
 import github.gunkim.climbingcalendar.domain.schedule.model.ClearWithLevel;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,13 +30,10 @@ public class ClearWithLevelReader {
     }
 
     private List<ClearWithLevel> getClearWithLevels(List<Clear> clears) {
-        List<Level> levels = getLevels(clears);
-
+        Map<LevelId, Level> levelMap = getLevels(clears).stream()
+                .collect(Collectors.toMap(Level::id, level -> level));
         return clears.stream()
-                .map(clear -> new ClearWithLevel(clear, levels.stream()
-                        .filter(level -> level.id().equals(clear.levelId()))
-                        .findFirst()
-                        .get()))
+                .map(clear -> new ClearWithLevel(clear, levelMap.get(clear.levelId())))
                 .toList();
     }
 
@@ -42,5 +42,4 @@ public class ClearWithLevelReader {
                 .map(Clear::levelId)
                 .toList());
     }
-
 }

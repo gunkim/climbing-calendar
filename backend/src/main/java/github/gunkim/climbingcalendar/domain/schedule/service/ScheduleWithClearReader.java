@@ -18,7 +18,7 @@ public class ScheduleWithClearReader {
     private final ScheduleWithClimbingGymReader scheduleWithClimbingGymReader;
     private final ClearWithLevelReader clearWithLevelReader;
 
-    public List<ScheduleWithClear> getSchedulWithClears(UserId userId) {
+    public List<ScheduleWithClear> getScheduleWithClears(UserId userId) {
         List<ScheduleWithClimbingGym> scheduleWithClimbingGyms = scheduleWithClimbingGymReader.getSchedules(userId);
         Map<ScheduleId, List<ClearWithLevel>> clearWithLevelsMap = clearWithLevelReader.getClears(
                         scheduleWithClimbingGyms.stream()

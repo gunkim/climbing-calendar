@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toMap;
+
 @Service
 @RequiredArgsConstructor
 public class ClearWithLevelReader {
@@ -31,7 +33,7 @@ public class ClearWithLevelReader {
 
     private List<ClearWithLevel> getClearWithLevels(List<Clear> clears) {
         Map<LevelId, Level> levelMap = getLevels(clears).stream()
-                .collect(Collectors.toMap(Level::id, level -> level));
+                .collect(toMap(Level::id, level -> level));
         return clears.stream()
                 .map(clear -> new ClearWithLevel(clear, levelMap.get(clear.levelId())))
                 .toList();

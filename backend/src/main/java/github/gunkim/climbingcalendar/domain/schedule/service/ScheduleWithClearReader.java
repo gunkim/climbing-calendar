@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.groupingBy;
+
 @Service
 @RequiredArgsConstructor
 public class ScheduleWithClearReader {
@@ -25,7 +27,7 @@ public class ScheduleWithClearReader {
                                 .map(scheduleWithClimbingGym -> scheduleWithClimbingGym.schedule().id())
                                 .toList())
                 .stream()
-                .collect(Collectors.groupingBy(clearWithLevel -> clearWithLevel.clear().scheduleId()));
+                .collect(groupingBy(clearWithLevel -> clearWithLevel.clear().scheduleId()));
 
         return scheduleWithClimbingGyms.stream()
                 .map(scheduleWithClimbingGym -> new ScheduleWithClear(

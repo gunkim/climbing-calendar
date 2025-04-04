@@ -10,8 +10,19 @@ import github.gunkim.climbingcalendar.domain.climbinggym.model.vo.Grade;
 import github.gunkim.climbingcalendar.domain.schedule.model.Clear;
 import github.gunkim.climbingcalendar.domain.schedule.model.Schedule;
 import github.gunkim.climbingcalendar.domain.user.model.User;
+import github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.dao.ClimbingGymDao;
+import github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.dao.LevelDao;
+import github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.entity.ClimbingGymEntity;
+import github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.entity.LevelEntity;
+import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.dao.ClearDao;
+import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.dao.ScheduleDao;
+import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.entity.ClearEntity;
+import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.entity.ScheduleEntity;
+import github.gunkim.climbingcalendar.infrastructure.jpa.user.dao.UserDao;
+import github.gunkim.climbingcalendar.infrastructure.jpa.user.entity.UserEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 import java.time.Instant;
@@ -20,8 +31,21 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 class ScheduleControllerTest extends IntegrationTest {
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private ClimbingGymDao climbingGymDao;
+
+    @Autowired
+    private ScheduleDao scheduleDao;
+
+    @Autowired
+    private LevelDao levelDao;
+
+    @Autowired
+    private ClearDao clearDao;
 
     @Test
     @DisplayName("GET /api/v1/schedules - 모든 스케줄 조회")
@@ -122,5 +146,27 @@ class ScheduleControllerTest extends IntegrationTest {
                 .andExpect(jsonPath("$[1].clearList[0].id").value(3L))
                 .andExpect(jsonPath("$[1].clearList[0].count").value(2))
                 .andDo(print());
+    }
+
+    private User createUser(User user) {
+        return userDao.save(UserEntity.from(
+                user
+        )).toDomain();
+    }
+
+    private ClimbingGym addClimbingGym(ClimbingGym climbingGym) {
+        return climbingGymDao.save(ClimbingGymEntity.from(climbingGym)).toDomain();
+    }
+
+    private Schedule addSchedule(Schedule schedule) {
+        return scheduleDao.save(ScheduleEntity.from(schedule)).toDomain();
+    }
+
+    private Level addLevel(Level level) {
+        return levelDao.save(LevelEntity.from(level)).toDomain();
+    }
+
+    private Clear addClear(Clear clear) {
+        return clearDao.save(ClearEntity.from(clear)).toDomain();
     }
 }

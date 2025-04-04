@@ -37,24 +37,6 @@ public class IntegrationTest {
     protected JwtProvider jwtProvider;
 
     @Autowired
-    protected ObjectMapper objectMapper;
-
-    @Autowired
-    protected CreateScheduleService createScheduleService;
-
-    @Autowired
-    protected UpdateScheduleService updateScheduleService;
-
-    @Autowired
-    protected DeleteScheduleService deleteScheduleService;
-
-    @Autowired
-    protected ScheduleWithClimbingGymReader scheduleWithClimbingGymReader;
-
-    @Autowired
-    protected ClearWithLevelReader clearWithLevelReader;
-
-    @Autowired
     private UserDao userDao;
 
     @Autowired

@@ -5,22 +5,15 @@ import github.gunkim.climbingcalendar.api.schedule.model.requeset.CreateSchedule
 import github.gunkim.climbingcalendar.api.schedule.model.requeset.UpdateScheduleRequest;
 import github.gunkim.climbingcalendar.api.schedule.model.response.GetScheduleResponse;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
+import github.gunkim.climbingcalendar.domain.schedule.model.ScheduleWithClear;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
-import github.gunkim.climbingcalendar.domain.schedule.service.ClearWithLevelReader;
 import github.gunkim.climbingcalendar.domain.schedule.service.CreateScheduleService;
 import github.gunkim.climbingcalendar.domain.schedule.service.DeleteScheduleService;
-import github.gunkim.climbingcalendar.domain.schedule.service.ScheduleWithClimbingGymReader;
+import github.gunkim.climbingcalendar.domain.schedule.service.ScheduleWithClearReader;
 import github.gunkim.climbingcalendar.domain.schedule.service.UpdateScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,16 +40,14 @@ public class ScheduleController implements ScheduleResource {
     private final CreateScheduleService createScheduleService;
     private final UpdateScheduleService updateScheduleService;
     private final DeleteScheduleService deleteScheduleService;
-    private final ScheduleWithClimbingGymReader scheduleWithClimbingGymReader;
-    private final ClearWithLevelReader clearWithLevelReader;
+    private final ScheduleWithClearReader scheduleWithClearReader;
 
     @Override
     public List<GetScheduleResponse> getSchedules(AuthenticatedUser authenticatedUser) {
-        return scheduleWithClimbingGymReader.getSchedules(authenticatedUser.userId()).stream()
-                .map(scheduleWithClimbingGym -> GetScheduleResponse.from(
-                        scheduleWithClimbingGym,
-                        clearWithLevelReader.getClears(scheduleWithClimbingGym.schedule().id())
-                )).toList();
+        List<ScheduleWithClear> scheduleWithClears = scheduleWithClearReader.getScheduleWithClears(authenticatedUser.userId());
+        return scheduleWithClears.stream()
+                .map(GetScheduleResponse::from)
+                .toList();
     }
 
     @Override

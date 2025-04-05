@@ -19,6 +19,9 @@ backend/.project
 backend/.settings/
 backend/*.iml
 backend/.env
+backend/gradle.properties
+backend/settings.gradle.kts
+backend/build.gradle.kts
 
 # frontend - Next.js
 frontend/.next/

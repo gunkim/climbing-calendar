@@ -18,8 +18,8 @@ public record GetClimbingGymResponse(
                 .id(climbingGym.id().value())
                 .name(climbingGym.name())
                 .address(climbingGym.address())
-                .latitude(climbingGym.geo().latitude())
-                .longitude(climbingGym.geo().longitude())
+                .latitude(climbingGym.geoLocation().latitude())
+                .longitude(climbingGym.geoLocation().longitude())
                 .isParkingAvailable(climbingGym.isParkingAvailable())
                 .build();
     }

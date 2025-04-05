@@ -20,7 +20,6 @@ public class ScheduleWithClimbingGymReader {
     public ScheduleWithClimbingGym getSchedule(ScheduleId scheduleId) {
         Schedule schedule = getScheduleService.getScheduleById(scheduleId);
         ClimbingGym climbingGym = getClimbingGymService.getClimbingGym(schedule.climbingGymId());
-
         return new ScheduleWithClimbingGym(schedule, climbingGym);
     }
 

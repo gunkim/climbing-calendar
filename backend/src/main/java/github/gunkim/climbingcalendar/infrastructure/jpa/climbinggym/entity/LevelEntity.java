@@ -7,10 +7,12 @@ import github.gunkim.climbingcalendar.domain.climbinggym.model.vo.Color;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.vo.Grade;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity(name = "level")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,6 +27,29 @@ public class LevelEntity {
     private int endGrade;
     private Instant createdAt;
     private Instant updatedAt;
+
+    @Builder(access = AccessLevel.PRIVATE)
+    public LevelEntity(Long id, Long climbingGymId, Color color, int startGrade, int endGrade, Instant createdAt, Instant updatedAt) {
+        this.id = id;
+        this.climbingGymId = climbingGymId;
+        this.color = color;
+        this.startGrade = startGrade;
+        this.endGrade = endGrade;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public static LevelEntity from(Level level) {
+        return LevelEntity.builder()
+                .id(Optional.ofNullable(level.id()).map(LevelId::value).orElse(null))
+                .climbingGymId(level.climbingGymId().value())
+                .color(level.color())
+                .startGrade(level.grade().startGrade())
+                .endGrade(level.grade().endGrade())
+                .createdAt(level.createdAt())
+                .updatedAt(level.updatedAt())
+                .build();
+    }
 
     public Level toDomain() {
         return new Level(LevelId.from(id), ClimbingGymId.from(climbingGymId), color, Grade.from(startGrade, endGrade), createdAt, updatedAt);

@@ -72,5 +72,4 @@ public class ScheduleEntity {
     public int hashCode() {
         return Objects.hash(id, userId, climbingGymId, title, memo, scheduleDate, createdAt, updatedAt);
     }
-
 }

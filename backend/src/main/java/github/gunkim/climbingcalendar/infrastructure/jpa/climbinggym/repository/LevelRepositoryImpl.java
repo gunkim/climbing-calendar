@@ -25,7 +25,23 @@ public class LevelRepositoryImpl implements LevelRepository {
     }
 
     @Override
+    public List<Level> findAllByIdIn(List<LevelId> levelIds) {
+        return levelDao.findAllByIdIn(levelIds.stream()
+                        .map(LevelId::value)
+                        .toList()).stream()
+                .map(LevelEntity::toDomain)
+                .toList();
+    }
+
+    @Override
     public Optional<Level> findById(LevelId id) {
         return levelDao.findById(id.value()).map(LevelEntity::toDomain);
+    }
+
+    @Override
+    public List<Level> findAll() {
+        return levelDao.findAll().stream()
+                .map(LevelEntity::toDomain)
+                .toList();
     }
 }

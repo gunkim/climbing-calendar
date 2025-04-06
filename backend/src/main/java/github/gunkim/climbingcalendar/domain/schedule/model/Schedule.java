@@ -1,6 +1,7 @@
 package github.gunkim.climbingcalendar.domain.schedule.model;
 
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
+import github.gunkim.climbingcalendar.domain.schedule.exception.UnauthorizedScheduleException;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
 import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import lombok.AccessLevel;
@@ -71,5 +72,11 @@ public class Schedule {
         this.memo = memo;
         this.scheduleDate = requireNonNull(scheduleDate, "ScheduleDate cannot be null");
         this.updatedAt = Instant.now();
+    }
+
+    public void validateOwner(UserId userId) {
+        if (!this.userId().equals(userId)) {
+            throw new UnauthorizedScheduleException("User is not authorized to update this schedule.");
+        }
     }
 }

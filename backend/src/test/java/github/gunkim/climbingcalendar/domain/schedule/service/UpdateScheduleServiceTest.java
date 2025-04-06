@@ -24,8 +24,6 @@ class UpdateScheduleServiceTest extends DomainTest {
 
     @BeforeEach
     void setUp() {
-        scheduleRepository = new InMemoryScheduleRepository();
-        clearRepository = new InMemoryClearRepository();
         var getScheduleService = new GetScheduleService(scheduleRepository);
         var updateClearService = new UpdateClearService(clearRepository);
         sut = new UpdateScheduleService(getScheduleService, updateClearService, scheduleRepository);

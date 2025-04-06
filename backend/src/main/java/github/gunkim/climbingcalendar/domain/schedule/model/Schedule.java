@@ -74,7 +74,7 @@ public class Schedule {
         this.updatedAt = Instant.now();
     }
 
-    public void validateUserAuthorization(UserId userId) {
+    public void validateOwner(UserId userId) {
         if (!this.userId().equals(userId)) {
             throw new UnauthorizedScheduleException("User is not authorized to update this schedule.");
         }

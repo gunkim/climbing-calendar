@@ -17,7 +17,7 @@ public class DeleteScheduleService {
 
     public void deleteSchedule(ScheduleId scheduleId, UserId userId) {
         Schedule schedule = getScheduleService.getScheduleById(scheduleId);
-        schedule.validateUserAuthorization(userId);
+        schedule.validateOwner(userId);
         scheduleRepository.deleteById(scheduleId);
         clearRepository.deleteByScheduleId(scheduleId);
     }

@@ -42,7 +42,7 @@ public class UpdateScheduleService {
                                     Instant scheduleDate,
                                     String memo) {
         Schedule schedule = getScheduleService.getScheduleById(scheduleId);
-        schedule.validateUserAuthorization(userId);
+        schedule.validateOwner(userId);
         schedule.update(climbingGymId, title, memo, scheduleDate);
 
         return schedule;

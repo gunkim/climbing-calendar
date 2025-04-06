@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -48,7 +47,7 @@ public class ScheduleWithClearReader {
         return schedules.stream()
                 .map(schedule -> new ScheduleWithClear(
                         schedule,
-                        clearsMap.getOrDefault(schedule.schedule().id(), List.of()) // null 방지
+                        clearsMap.getOrDefault(schedule.schedule().id(), List.of())
                 ))
                 .toList();
     }

@@ -60,4 +60,19 @@ public class InMemoryClearRepository implements ClearRepository {
         }
         return result;
     }
+
+    @Override
+    public List<Clear> findAllByScheduleIdIn(List<ScheduleId> scheduleIds) {
+        List<Clear> result = new ArrayList<>();
+        scheduleIds.forEach(
+                scheduleId -> {
+                    for (Clear clear : database.values()) {
+                        if (clear.scheduleId().equals(scheduleId)) {
+                            result.add(clear);
+                        }
+                    }
+                }
+        );
+        return result;
+    }
 }

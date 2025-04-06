@@ -2,6 +2,7 @@ package github.gunkim.climbingcalendar.api.schedule.model.response;
 
 import github.gunkim.climbingcalendar.api.schedule.model.ClearItem;
 import github.gunkim.climbingcalendar.domain.schedule.model.ClearWithLevel;
+import github.gunkim.climbingcalendar.domain.schedule.model.ScheduleWithClear;
 import github.gunkim.climbingcalendar.domain.schedule.model.ScheduleWithClimbingGym;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,16 +20,16 @@ public record GetScheduleResponse(
     String climbingGymName,
     List<ClearItem> clearList
 ) {
-    public static GetScheduleResponse from(ScheduleWithClimbingGym scheduleWithClimbingGym, List<ClearWithLevel> clears) {
+    public static GetScheduleResponse from(ScheduleWithClear scheduleWithClear) {
         return GetScheduleResponse.builder()
-                .id(scheduleWithClimbingGym.schedule().id().value())
-                .title(scheduleWithClimbingGym.schedule().title())
-                .scheduleDate(scheduleWithClimbingGym.schedule().scheduleDate())
-                .memo(scheduleWithClimbingGym.schedule().memo())
-                .climbingGymId(scheduleWithClimbingGym.climbingGym().id().value())
-                .climbingGymName(scheduleWithClimbingGym.climbingGym().name())
+                .id(scheduleWithClear.scheduleWithClimbingGym().schedule().id().value())
+                .title(scheduleWithClear.scheduleWithClimbingGym().schedule().title())
+                .scheduleDate(scheduleWithClear.scheduleWithClimbingGym().schedule().scheduleDate())
+                .memo(scheduleWithClear.scheduleWithClimbingGym().schedule().memo())
+                .climbingGymId(scheduleWithClear.scheduleWithClimbingGym().climbingGym().id().value())
+                .climbingGymName(scheduleWithClear.scheduleWithClimbingGym().climbingGym().name())
                 .clearList(
-                        clears.stream()
+                        scheduleWithClear.clearWithLevels().stream()
                                 .map(ClearItem::from)
                                 .toList()
                 )

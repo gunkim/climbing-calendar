@@ -6,8 +6,6 @@ import github.gunkim.climbingcalendar.domain.climbinggym.model.id.LevelId;
 import github.gunkim.climbingcalendar.domain.schedule.model.ClearCommand;
 import github.gunkim.climbingcalendar.domain.schedule.model.Schedule;
 import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
-import github.gunkim.climbingcalendar.tool.InMemoryClearRepository;
-import github.gunkim.climbingcalendar.tool.InMemoryScheduleRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,8 +22,6 @@ class UpdateScheduleServiceTest extends DomainTest {
 
     @BeforeEach
     void setUp() {
-        scheduleRepository = new InMemoryScheduleRepository();
-        clearRepository = new InMemoryClearRepository();
         var getScheduleService = new GetScheduleService(scheduleRepository);
         var updateClearService = new UpdateClearService(clearRepository);
         sut = new UpdateScheduleService(getScheduleService, updateClearService, scheduleRepository);

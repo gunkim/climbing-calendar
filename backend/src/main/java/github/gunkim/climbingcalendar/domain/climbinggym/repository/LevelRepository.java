@@ -10,5 +10,9 @@ import java.util.Optional;
 public interface LevelRepository {
     List<Level> findByClimbingGymId(ClimbingGymId climbingGymId);
 
+    List<Level> findAllByIdIn(List<LevelId> levelIds);
+
     Optional<Level> findById(LevelId id);
+
+    List<Level> findAll();
 }

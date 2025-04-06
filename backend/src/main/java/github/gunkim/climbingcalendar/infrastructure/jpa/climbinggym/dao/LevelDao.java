@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface LevelDao extends JpaRepository<LevelEntity, Long> {
     List<LevelEntity> findByClimbingGymId(Long climbingGymId);
+
+    List<LevelEntity> findAllByIdIn(List<Long> levelIds);
 }

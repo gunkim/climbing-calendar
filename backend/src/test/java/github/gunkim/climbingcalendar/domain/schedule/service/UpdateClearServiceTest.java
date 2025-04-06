@@ -20,7 +20,6 @@ class UpdateClearServiceTest extends DomainTest {
 
     @BeforeEach
     void setUp() {
-        clearRepository = new InMemoryClearRepository();
         sut = new UpdateClearService(clearRepository);
     }
 

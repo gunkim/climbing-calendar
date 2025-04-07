@@ -1,6 +1,7 @@
 package github.gunkim.climbingcalendar.application.model;
 
 import github.gunkim.climbingcalendar.common.Pageable;
+import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,13 +11,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("ScheduleSearchCriteria 테스트")
 class ScheduleSearchCriteriaTest {
+    private UserId userId = UserId.from(1L);
+
     @Test
     void 모든_값_넣어_생성된다() {
         var pageable = Pageable.of(1, 10);
         var year = 2023;
         var month = 10;
 
-        var criteria = new ScheduleSearchCriteria(pageable, year, month);
+        var criteria = new ScheduleSearchCriteria(pageable, userId, year, month);
 
         assertAll(
                 () -> assertEquals(pageable, criteria.pageable()),
@@ -31,7 +34,7 @@ class ScheduleSearchCriteriaTest {
         Integer year = null;
         Integer month = null;
 
-        var criteria = new ScheduleSearchCriteria(pageable, year, month);
+        var criteria = new ScheduleSearchCriteria(pageable, userId, year, month);
 
         assertAll(
                 () -> assertEquals(pageable, criteria.pageable()),
@@ -46,7 +49,7 @@ class ScheduleSearchCriteriaTest {
         Integer year = null;
         Integer month = 10;
 
-        assertThatThrownBy(() -> new ScheduleSearchCriteria(pageable, year, month))
+        assertThatThrownBy(() -> new ScheduleSearchCriteria(pageable, userId, year, month))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -56,7 +59,7 @@ class ScheduleSearchCriteriaTest {
         Integer year = 2023;
         Integer month = null;
 
-        assertThatThrownBy(() -> new ScheduleSearchCriteria(pageable, year, month))
+        assertThatThrownBy(() -> new ScheduleSearchCriteria(pageable, userId, year, month))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

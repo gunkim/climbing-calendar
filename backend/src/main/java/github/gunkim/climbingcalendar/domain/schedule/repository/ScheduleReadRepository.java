@@ -11,4 +11,10 @@ public interface ScheduleReadRepository {
     Optional<Schedule> findById(ScheduleId id);
 
     List<Schedule> findByUserId(UserId userId);
+
+    int countByUserId(UserId userId);
+
+    int countByUserIdAndYear(UserId userId, int year);
+
+    int countByUserIdAndMonth(UserId userId, int month);
 }

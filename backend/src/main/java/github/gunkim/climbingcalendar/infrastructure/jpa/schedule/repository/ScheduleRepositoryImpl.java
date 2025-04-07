@@ -43,4 +43,19 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
                 .map(ScheduleEntity::toDomain)
                 .toList();
     }
+
+    @Override
+    public int countByUserId(UserId userId) {
+        return scheduleDao.countByUserId(userId.value());
+    }
+
+    @Override
+    public int countByUserIdAndYear(UserId userId, int year) {
+        return scheduleDao.countByUserIdAndYear(userId.value(), year);
+    }
+
+    @Override
+    public int countByUserIdAndMonth(UserId userId, int month) {
+        return scheduleDao.countByUserIdAndMonth(userId.value(), month);
+    }
 }

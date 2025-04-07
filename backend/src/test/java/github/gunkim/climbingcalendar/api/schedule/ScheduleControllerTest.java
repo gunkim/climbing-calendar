@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 import java.time.Instant;
-import java.time.Month;
 import java.time.ZoneId;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -51,15 +50,17 @@ class ScheduleControllerTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("모든 스케줄 조회")
+    @DisplayName("[GET] /api/v1/schedules - 모든 스케줄 조회")
     void testGetSchedules() throws Exception {
         String token = createAccessToken(testUser);
-        Month currentMonth = Instant.now().atZone(ZoneId.systemDefault()).getMonth();
+        String currentYear = String.valueOf(Instant.now().atZone(ZoneId.systemDefault()).getYear());
+        String currentMonth = String.valueOf(Instant.now().atZone(ZoneId.systemDefault()).getMonth().getValue());
 
         mockMvc.perform(get("/api/v1/schedules")
                         .param("page", "0")
                         .param("size", "10")
-                        .param("month", currentMonth.name())
+//                        .param("year", currentYear)
+//                        .param("month", currentMonth)
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

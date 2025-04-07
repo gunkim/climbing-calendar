@@ -8,6 +8,8 @@ import github.gunkim.climbingcalendar.api.schedule.model.requeset.UpdateSchedule
 import github.gunkim.climbingcalendar.api.schedule.model.response.GetScheduleResponse;
 import github.gunkim.climbingcalendar.api.schedule.model.response.GetSchedulesCountResponse;
 import github.gunkim.climbingcalendar.application.ScheduleQueryService;
+import github.gunkim.climbingcalendar.application.model.ScheduleSearchCriteria;
+import github.gunkim.climbingcalendar.common.Pageable;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
 import github.gunkim.climbingcalendar.domain.schedule.service.CreateScheduleService;
@@ -16,7 +18,15 @@ import github.gunkim.climbingcalendar.domain.schedule.service.GetSchedulesCountS
 import github.gunkim.climbingcalendar.domain.schedule.service.UpdateScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -43,6 +53,8 @@ interface ScheduleResource {
 @RestController
 @RequiredArgsConstructor
 public class ScheduleController implements ScheduleResource {
+    private static final int DEFAULT_SIZE = 31;
+
     private final CreateScheduleService createScheduleService;
     private final UpdateScheduleService updateScheduleService;
     private final DeleteScheduleService deleteScheduleService;
@@ -51,7 +63,12 @@ public class ScheduleController implements ScheduleResource {
 
     @Override
     public List<GetScheduleResponse> getSchedules(AuthenticatedUser authenticatedUser, GetScheduleRequest request) {
-        return scheduleQueryService.getSchedules(request.toCriteria()).stream()
+        var pageable = Pageable.of(
+                request.page(),
+                request.size() == null ? DEFAULT_SIZE : request.size()
+        );
+        var criteria = new ScheduleSearchCriteria(pageable, request.year(), request.month());
+        return scheduleQueryService.getSchedules(criteria).stream()
                 .map(GetScheduleResponse::from)
                 .toList();
     }

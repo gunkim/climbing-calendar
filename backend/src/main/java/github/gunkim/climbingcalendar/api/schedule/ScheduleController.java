@@ -67,7 +67,7 @@ public class ScheduleController implements ScheduleResource {
                 request.page(),
                 request.size() == null ? DEFAULT_SIZE : request.size()
         );
-        var criteria = new ScheduleSearchCriteria(pageable, request.year(), request.month());
+        var criteria = new ScheduleSearchCriteria(pageable, authenticatedUser.userId(), request.year(), request.month());
         return scheduleQueryService.getSchedules(criteria).stream()
                 .map(GetScheduleResponse::from)
                 .toList();

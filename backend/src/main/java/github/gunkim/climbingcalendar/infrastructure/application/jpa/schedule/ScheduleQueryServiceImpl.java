@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.Year;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collections;
@@ -65,10 +63,15 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
                 .leftJoin(climbingGymEntity)
                 .on(scheduleEntity.climbingGymId.eq(climbingGymEntity.id))
                 .where(eqScheduleDateYear(criteria.year()),
-                        eqScheduleDateMonth(criteria.month()))
+                        eqScheduleDateMonth(criteria.month()),
+                        eqScheduleUserId(criteria))
                 .offset(pageable.offset())
                 .limit(pageable.size())
                 .fetch();
+    }
+
+    private BooleanExpression eqScheduleUserId(ScheduleSearchCriteria criteria) {
+        return scheduleEntity.userId.eq(criteria.userId().value());
     }
 
     private Map<Long, List<ScheduleSearchResult.ClearDto>> fetchClearInfoMap(List<Long> scheduleIds) {

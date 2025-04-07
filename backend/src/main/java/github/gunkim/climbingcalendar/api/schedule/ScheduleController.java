@@ -2,16 +2,15 @@ package github.gunkim.climbingcalendar.api.schedule;
 
 import github.gunkim.climbingcalendar.api.AuthenticatedUser;
 import github.gunkim.climbingcalendar.api.schedule.model.requeset.CreateScheduleRequest;
+import github.gunkim.climbingcalendar.api.schedule.model.requeset.GetScheduleRequest;
 import github.gunkim.climbingcalendar.api.schedule.model.requeset.UpdateScheduleRequest;
 import github.gunkim.climbingcalendar.api.schedule.model.response.GetScheduleResponse;
+import github.gunkim.climbingcalendar.application.ScheduleQueryService;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
-import github.gunkim.climbingcalendar.domain.schedule.model.ScheduleWithClear;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
 import github.gunkim.climbingcalendar.domain.schedule.service.CreateScheduleService;
 import github.gunkim.climbingcalendar.domain.schedule.service.DeleteScheduleService;
-import github.gunkim.climbingcalendar.domain.schedule.service.ScheduleWithClearReader;
 import github.gunkim.climbingcalendar.domain.schedule.service.UpdateScheduleService;
-import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,7 @@ import static github.gunkim.climbingcalendar.api.schedule.model.requeset.UpdateS
 @RequestMapping("/api/v1/schedules")
 interface ScheduleResource {
     @GetMapping
-    List<GetScheduleResponse> getSchedules(@AuthenticationPrincipal AuthenticatedUser authenticatedUser);
+    List<GetScheduleResponse> getSchedules(@AuthenticationPrincipal AuthenticatedUser authenticatedUser, @ModelAttribute GetScheduleRequest request);
 
     @PostMapping
     void createSchedule(@AuthenticationPrincipal AuthenticatedUser authenticatedUser, @RequestBody CreateScheduleRequest createScheduleRequest);
@@ -41,12 +40,11 @@ public class ScheduleController implements ScheduleResource {
     private final CreateScheduleService createScheduleService;
     private final UpdateScheduleService updateScheduleService;
     private final DeleteScheduleService deleteScheduleService;
-    private final ScheduleWithClearReader scheduleWithClearReader;
+    private final ScheduleQueryService scheduleQueryService;
 
     @Override
-    public List<GetScheduleResponse> getSchedules(AuthenticatedUser authenticatedUser) {
-        List<ScheduleWithClear> scheduleWithClears = scheduleWithClearReader.getScheduleWithClears(authenticatedUser.userId());
-        return scheduleWithClears.stream()
+    public List<GetScheduleResponse> getSchedules(AuthenticatedUser authenticatedUser, GetScheduleRequest request) {
+        return scheduleQueryService.getSchedules(request.toCriteria()).stream()
                 .map(GetScheduleResponse::from)
                 .toList();
     }

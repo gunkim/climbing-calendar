@@ -10,22 +10,24 @@ import github.gunkim.climbingcalendar.domain.climbinggym.model.vo.Grade;
 import github.gunkim.climbingcalendar.domain.schedule.model.Clear;
 import github.gunkim.climbingcalendar.domain.schedule.model.Schedule;
 import github.gunkim.climbingcalendar.domain.user.model.User;
-import github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.dao.ClimbingGymDao;
-import github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.dao.LevelDao;
-import github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.entity.ClimbingGymEntity;
-import github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.entity.LevelEntity;
-import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.dao.ClearDao;
-import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.dao.ScheduleDao;
-import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.entity.ClearEntity;
-import github.gunkim.climbingcalendar.infrastructure.jpa.schedule.entity.ScheduleEntity;
-import github.gunkim.climbingcalendar.infrastructure.jpa.user.dao.UserDao;
-import github.gunkim.climbingcalendar.infrastructure.jpa.user.entity.UserEntity;
+import github.gunkim.climbingcalendar.infrastructure.domain.jpa.climbinggym.dao.ClimbingGymDao;
+import github.gunkim.climbingcalendar.infrastructure.domain.jpa.climbinggym.dao.LevelDao;
+import github.gunkim.climbingcalendar.infrastructure.domain.jpa.climbinggym.entity.ClimbingGymEntity;
+import github.gunkim.climbingcalendar.infrastructure.domain.jpa.climbinggym.entity.LevelEntity;
+import github.gunkim.climbingcalendar.infrastructure.domain.jpa.schedule.dao.ClearDao;
+import github.gunkim.climbingcalendar.infrastructure.domain.jpa.schedule.dao.ScheduleDao;
+import github.gunkim.climbingcalendar.infrastructure.domain.jpa.schedule.entity.ClearEntity;
+import github.gunkim.climbingcalendar.infrastructure.domain.jpa.schedule.entity.ScheduleEntity;
+import github.gunkim.climbingcalendar.infrastructure.domain.jpa.user.dao.UserDao;
+import github.gunkim.climbingcalendar.infrastructure.domain.jpa.user.entity.UserEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 import java.time.Instant;
+import java.time.Month;
+import java.time.ZoneId;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -117,9 +119,13 @@ class ScheduleControllerTest extends IntegrationTest {
                 2
         ));
 
+        Month month = schedule1.scheduleDate().atZone(ZoneId.systemDefault()).getMonth();
         var token = jwtProvider.createToken(user.id());
 
         mockMvc.perform(get("/api/v1/schedules")
+                        .param("page", "0")
+                        .param("size", "10")
+                        .param("month", month.name())
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

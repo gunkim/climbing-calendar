@@ -3,13 +3,16 @@ package github.gunkim.climbingcalendar.api.schedule;
 import github.gunkim.climbingcalendar.api.AuthenticatedUser;
 import github.gunkim.climbingcalendar.api.schedule.model.requeset.CreateScheduleRequest;
 import github.gunkim.climbingcalendar.api.schedule.model.requeset.GetScheduleRequest;
+import github.gunkim.climbingcalendar.api.schedule.model.requeset.GetSchedulesCountRequest;
 import github.gunkim.climbingcalendar.api.schedule.model.requeset.UpdateScheduleRequest;
 import github.gunkim.climbingcalendar.api.schedule.model.response.GetScheduleResponse;
+import github.gunkim.climbingcalendar.api.schedule.model.response.GetSchedulesCountResponse;
 import github.gunkim.climbingcalendar.application.ScheduleQueryService;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
 import github.gunkim.climbingcalendar.domain.schedule.service.CreateScheduleService;
 import github.gunkim.climbingcalendar.domain.schedule.service.DeleteScheduleService;
+import github.gunkim.climbingcalendar.domain.schedule.service.GetSchedulesCountService;
 import github.gunkim.climbingcalendar.domain.schedule.service.UpdateScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,6 +35,9 @@ interface ScheduleResource {
 
     @DeleteMapping("/{id}")
     void deleteSchedule(@AuthenticationPrincipal AuthenticatedUser authenticatedUser, @PathVariable Long id);
+
+    @GetMapping("/count")
+    GetSchedulesCountResponse getSchedulesCount(@AuthenticationPrincipal AuthenticatedUser authenticatedUser, @ModelAttribute GetSchedulesCountRequest request);
 }
 
 @RestController
@@ -41,6 +47,7 @@ public class ScheduleController implements ScheduleResource {
     private final UpdateScheduleService updateScheduleService;
     private final DeleteScheduleService deleteScheduleService;
     private final ScheduleQueryService scheduleQueryService;
+    private final GetSchedulesCountService getSchedulesCountService;
 
     @Override
     public List<GetScheduleResponse> getSchedules(AuthenticatedUser authenticatedUser, GetScheduleRequest request) {
@@ -67,5 +74,11 @@ public class ScheduleController implements ScheduleResource {
     @Override
     public void deleteSchedule(AuthenticatedUser authenticatedUser, Long id) {
         deleteScheduleService.deleteSchedule(ScheduleId.from(id), authenticatedUser.userId());
+    }
+
+    @Override
+    public GetSchedulesCountResponse getSchedulesCount(AuthenticatedUser authenticatedUser, @ModelAttribute GetSchedulesCountRequest getSchedulesCountRequest) {
+        return GetSchedulesCountResponse.from(getSchedulesCountService.getSchedulesCount(authenticatedUser.userId(), getSchedulesCountRequest.year(),
+                getSchedulesCountRequest.month()));
     }
 }

@@ -5,6 +5,7 @@ import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
 import github.gunkim.climbingcalendar.domain.schedule.repository.ScheduleRepository;
 import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,35 @@ public class InMemoryScheduleRepository implements ScheduleRepository {
         return scheduleDatabase.values().stream()
                 .filter(schedule -> schedule.userId().equals(userId))
                 .toList();
+    }
+
+    @Override
+    public int countByUserId(UserId userId) {
+        return (int) scheduleDatabase.values().stream()
+                .filter(schedule -> schedule.userId().equals(userId))
+                .count();
+    }
+
+    @Override
+    public int countByUserIdAndYear(UserId userId, int year) {
+        return (int) scheduleDatabase.values().stream()
+                .filter(schedule -> schedule.userId().equals(userId))
+                .filter(schedule ->
+                        schedule.scheduleDate()
+                                .atZone(ZoneId.systemDefault())
+                                .getYear() == year)
+                .count();
+    }
+
+    @Override
+    public int countByUserIdAndMonth(UserId userId, int month) {
+        return (int) scheduleDatabase.values().stream()
+                .filter(schedule -> schedule.userId().equals(userId))
+                .filter(schedule ->
+                        schedule.scheduleDate()
+                                .atZone(ZoneId.systemDefault())
+                                .getMonthValue() == month)
+                .count();
     }
 
     private Schedule assignIdIfNecessary(Schedule schedule) {

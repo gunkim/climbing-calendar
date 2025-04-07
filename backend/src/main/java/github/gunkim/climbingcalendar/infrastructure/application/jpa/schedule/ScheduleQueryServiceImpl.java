@@ -83,7 +83,7 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
                         clearEntity.scheduleId,
                         constructor(
                                 ScheduleSearchResult.ClearDto.class,
-                                clearEntity.id,
+                                levelEntity.id,
                                 levelEntity.color,
                                 levelEntity.startGrade,
                                 levelEntity.endGrade,

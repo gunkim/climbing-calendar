@@ -4,11 +4,11 @@ import github.gunkim.climbingcalendar.domain.climbinggym.model.id.LevelId;
 import github.gunkim.climbingcalendar.domain.schedule.model.id.ScheduleId;
 
 public record ClearCommand(
-        LevelId levelId,
+        long levelId,
         int count
 ) {
     public Clear toClear(ScheduleId scheduleId) {
-        return Clear.create(scheduleId, levelId, count);
+        return Clear.create(scheduleId, LevelId.from(levelId), count);
     }
 
     public boolean isNotEmpty() {

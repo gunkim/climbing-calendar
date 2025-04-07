@@ -272,7 +272,7 @@ class ScheduleControllerTest extends IntegrationTest {
                 gym1.id(),
                 "Morning Climbing",
                 "Go climbing early in the morning",
-                Instant.now()
+                Instant.now().minusSeconds(1000000000)
         ));
 
         Schedule schedule2 = addSchedule(Schedule.create(

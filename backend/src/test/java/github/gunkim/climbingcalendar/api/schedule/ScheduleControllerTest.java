@@ -58,9 +58,9 @@ class ScheduleControllerTest extends IntegrationTest {
 
         mockMvc.perform(get("/api/v1/schedules")
                         .param("page", "0")
-                        .param("size", "10")
-//                        .param("year", currentYear)
-//                        .param("month", currentMonth)
+                        .param("size", "31")
+                        .param("year", currentYear)
+                        .param("month", currentMonth)
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

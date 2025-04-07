@@ -10,6 +10,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -17,8 +19,10 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Entity(name = "users")
+@SQLRestriction("deleted_at is NULL")
 @Builder(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE users SET deleted_at = NOW() WHERE id = ?")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

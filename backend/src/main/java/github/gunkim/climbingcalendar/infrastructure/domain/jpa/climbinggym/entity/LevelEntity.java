@@ -9,13 +9,17 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 
 @Entity(name = "level")
+@SQLRestriction("deleted_at is NULL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE level SET deleted_at = NOW() WHERE id = ?")
 public class LevelEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

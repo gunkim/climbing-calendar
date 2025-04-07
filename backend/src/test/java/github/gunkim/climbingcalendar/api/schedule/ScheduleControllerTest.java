@@ -10,6 +10,7 @@ import github.gunkim.climbingcalendar.domain.climbinggym.model.vo.Grade;
 import github.gunkim.climbingcalendar.domain.schedule.model.Clear;
 import github.gunkim.climbingcalendar.domain.schedule.model.Schedule;
 import github.gunkim.climbingcalendar.domain.user.model.User;
+import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.dao.ClimbingGymDao;
 import github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.dao.LevelDao;
 import github.gunkim.climbingcalendar.infrastructure.jpa.climbinggym.entity.ClimbingGymEntity;
@@ -50,6 +51,83 @@ class ScheduleControllerTest extends IntegrationTest {
     @Test
     @DisplayName("GET /api/v1/schedules - 모든 스케줄 조회")
     void testGetSchedules() throws Exception {
+        setUpData();
+        var token = jwtProvider.createToken(UserId.from(1L));
+
+        mockMvc.perform(get("/api/v1/schedules")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].id").value(1L))
+                .andExpect(jsonPath("$[0].title").value("Morning Climbing"))
+                .andExpect(jsonPath("$[0].scheduleDate").value("2023-11-10T08:00:00Z"))
+                .andExpect(jsonPath("$[0].memo").value("Go climbing early in the morning"))
+                .andExpect(jsonPath("$[0].climbingGymId").value(1L))
+                .andExpect(jsonPath("$[0].climbingGymName").value("Mountain Peak Gym"))
+
+                .andExpect(jsonPath("$[1].clearList").isArray())
+                .andExpect(jsonPath("$[0].clearList[0].id").value(1L))
+                .andExpect(jsonPath("$[0].clearList[0].count").value(3))
+                .andExpect(jsonPath("$[0].clearList[1].id").value(2L))
+                .andExpect(jsonPath("$[0].clearList[1].count").value(5))
+                .andExpect(jsonPath("$[1].id").value(2L))
+                .andExpect(jsonPath("$[1].title").value("Evening Climbing"))
+                .andExpect(jsonPath("$[1].scheduleDate").value("2023-11-15T18:00:00Z"))
+                .andExpect(jsonPath("$[1].memo").value("Relax and climb in the evening"))
+                .andExpect(jsonPath("$[1].climbingGymId").value(2L))
+                .andExpect(jsonPath("$[1].climbingGymName").value("Rocky Gym"))
+
+                .andExpect(jsonPath("$[1].clearList").isArray())
+                .andExpect(jsonPath("$[1].clearList[0].id").value(3L))
+                .andExpect(jsonPath("$[1].clearList[0].count").value(2))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("GET /api/v1/schedules/count?year=2023 - 필터조건에 해당하는 모든 스케줄 갯수 조회")
+    void testGetSchedulesCountByYear() throws Exception {
+        setUpData();
+        var token = jwtProvider.createToken(UserId.from(1L));
+
+        mockMvc.perform(get("/api/v1/schedules/count")
+                        .header("Authorization", "Bearer " + token)
+                        .param("year", String.valueOf(2023)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.count").value(2))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("GET /api/v1/schedules/count?month=10 - 필터조건에 해당하는 모든 스케줄 갯수 조회")
+    void testGetSchedulesCountByMonth() throws Exception {
+        setUpData();
+        var token = jwtProvider.createToken(UserId.from(1L));
+
+        mockMvc.perform(get("/api/v1/schedules/count")
+                        .header("Authorization", "Bearer " + token)
+                        .param("month", String.valueOf(10)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.count").value(1))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("GET /api/v1/schedules/count -  필터가 존재하지않는 경우 모든 스케줄 갯수 조회")
+    void testGetSchedulesCountByNotParm() throws Exception {
+        setUpData();
+        var token = jwtProvider.createToken(UserId.from(1L));
+
+        mockMvc.perform(get("/api/v1/schedules/count")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.count").value(2))
+                .andDo(print());
+    }
+
+    private void setUpData() {
         User user = createUser(
                 User.registration(
                         "test@gmail.com",
@@ -96,7 +174,7 @@ class ScheduleControllerTest extends IntegrationTest {
                 gym2.id(),
                 "Evening Climbing",
                 "Relax and climb in the evening",
-                Instant.parse("2023-11-15T18:00:00Z")
+                Instant.parse("2023-10-15T18:00:00Z")
         ));
 
         addClear(Clear.create(
@@ -116,36 +194,6 @@ class ScheduleControllerTest extends IntegrationTest {
                 LevelId.from(3L),
                 2
         ));
-
-        var token = jwtProvider.createToken(user.id());
-
-        mockMvc.perform(get("/api/v1/schedules")
-                        .header("Authorization", "Bearer " + token))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].title").value("Morning Climbing"))
-                .andExpect(jsonPath("$[0].scheduleDate").value("2023-11-10T08:00:00Z"))
-                .andExpect(jsonPath("$[0].memo").value("Go climbing early in the morning"))
-                .andExpect(jsonPath("$[0].climbingGymId").value(1L))
-                .andExpect(jsonPath("$[0].climbingGymName").value("Mountain Peak Gym"))
-
-                .andExpect(jsonPath("$[1].clearList").isArray())
-                .andExpect(jsonPath("$[0].clearList[0].id").value(1L))
-                .andExpect(jsonPath("$[0].clearList[0].count").value(3))
-                .andExpect(jsonPath("$[0].clearList[1].id").value(2L))
-                .andExpect(jsonPath("$[0].clearList[1].count").value(5))
-                .andExpect(jsonPath("$[1].id").value(2L))
-                .andExpect(jsonPath("$[1].title").value("Evening Climbing"))
-                .andExpect(jsonPath("$[1].scheduleDate").value("2023-11-15T18:00:00Z"))
-                .andExpect(jsonPath("$[1].memo").value("Relax and climb in the evening"))
-                .andExpect(jsonPath("$[1].climbingGymId").value(2L))
-                .andExpect(jsonPath("$[1].climbingGymName").value("Rocky Gym"))
-
-                .andExpect(jsonPath("$[1].clearList").isArray())
-                .andExpect(jsonPath("$[1].clearList[0].id").value(3L))
-                .andExpect(jsonPath("$[1].clearList[0].count").value(2))
-                .andDo(print());
     }
 
     private User createUser(User user) {

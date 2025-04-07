@@ -10,6 +10,7 @@ ehthumbs.db
 
 # backend - Spring Boot (Gradle 기반)
 backend/build/
+backend/**/generated
 backend/out/
 backend/.gradle/
 backend/.idea/

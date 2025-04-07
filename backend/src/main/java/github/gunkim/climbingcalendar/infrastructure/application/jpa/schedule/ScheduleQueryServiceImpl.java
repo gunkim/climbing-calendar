@@ -10,11 +10,14 @@ import github.gunkim.climbingcalendar.common.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.querydsl.core.types.Projections.constructor;
@@ -61,10 +64,8 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
                 .from(scheduleEntity)
                 .leftJoin(climbingGymEntity)
                 .on(scheduleEntity.climbingGymId.eq(climbingGymEntity.id))
-                .where(combineConditions(
-                        eqScheduleDateYear(criteria.year()),
-                        eqScheduleDateMonth(criteria.month())
-                ))
+                .where(eqScheduleDateYear(criteria.year()),
+                        eqScheduleDateMonth(criteria.month()))
                 .offset(pageable.offset())
                 .limit(pageable.size())
                 .fetch();
@@ -106,20 +107,21 @@ public class ScheduleQueryServiceImpl implements ScheduleQueryService {
         if (year == null) {
             return null;
         }
-        return scheduleEntity.scheduleDate.year().eq(year);
+
+        Instant startOfYear = ZonedDateTime.of(year, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")).toInstant();
+        Instant endOfYear = ZonedDateTime.of(year, 12, 31, 23, 59, 59, 999_999_999, ZoneId.of("UTC")).toInstant();
+
+        return scheduleEntity.scheduleDate.between(startOfYear, endOfYear);
     }
 
     private BooleanExpression eqScheduleDateMonth(Integer month) {
         if (month == null) {
             return null;
         }
-        return scheduleEntity.scheduleDate.month().eq(month);
-    }
 
-    private BooleanExpression combineConditions(BooleanExpression... expressions) {
-        return Arrays.stream(expressions)
-                .filter(Objects::nonNull)
-                .reduce(BooleanExpression::and)
-                .orElse(null);
+        ZonedDateTime startOfMonth = ZonedDateTime.now().withMonth(month).withDayOfMonth(1).toLocalDate().atStartOfDay(ZoneId.of("UTC"));
+        ZonedDateTime endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.toLocalDate().lengthOfMonth()).withHour(23).withMinute(59).withSecond(59);
+
+        return scheduleEntity.scheduleDate.between(startOfMonth.toInstant(), endOfMonth.toInstant());
     }
 }

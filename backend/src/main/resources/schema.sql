@@ -4,6 +4,7 @@ CREATE TABLE users
     email         VARCHAR(255) NOT NULL UNIQUE,
     name          VARCHAR(100) NOT NULL,
     profile_image VARCHAR(500),
+    deleted_at    TIMESTAMP DEFAULT NULL,
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -15,10 +16,10 @@ CREATE TABLE climbing_gym
     address              VARCHAR(500) NOT NULL,
     latitude             DOUBLE       NOT NULL,
     longitude            DOUBLE       NOT NULL,
-    is_parking_available BOOLEAN      NOT NULL DEFAULT FALSE,
-    deleted_at           TIMESTAMP             DEFAULT NULL,
-    created_at           TIMESTAMP             DEFAULT CURRENT_TIMESTAMP,
-    updated_at           TIMESTAMP             DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    is_parking_available BOOLEAN NOT NULL DEFAULT FALSE,
+    deleted_at           TIMESTAMP        DEFAULT NULL,
+    created_at           TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
+    updated_at           TIMESTAMP        DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE level

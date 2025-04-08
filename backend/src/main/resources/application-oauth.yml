@@ -5,8 +5,8 @@ spring:
         registration:
           kakao:
             authorization-grant-type: authorization_code
-            client-id: 12 # Kakao rest api key
-            client-secret: 12 # Kakao login client secret
+            client-id: # Kakao rest api key
+            client-secret: # Kakao login client secret
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope:
               - profile_nickname

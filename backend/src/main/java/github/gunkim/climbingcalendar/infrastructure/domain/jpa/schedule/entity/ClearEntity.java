@@ -11,13 +11,17 @@ import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 
 @Entity(name = "clear")
+@SQLRestriction("deleted_at is NULL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE clear SET deleted_at = NOW() WHERE id = ?")
 public class ClearEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

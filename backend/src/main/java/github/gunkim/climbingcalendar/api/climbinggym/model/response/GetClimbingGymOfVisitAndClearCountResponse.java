@@ -1,4 +1,4 @@
-package github.gunkim.climbingcalendar.api.climbinggym.response;
+package github.gunkim.climbingcalendar.api.climbinggym.model.response;
 
 import github.gunkim.climbingcalendar.application.model.ClimbingGymOfVisitAndClearCountResult;
 

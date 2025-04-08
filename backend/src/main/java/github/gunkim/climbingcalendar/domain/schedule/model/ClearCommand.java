@@ -8,7 +8,8 @@ public record ClearCommand(
         int count
 ) {
     public Clear toClear(ScheduleId scheduleId) {
-        return Clear.create(scheduleId, levelId, count);
+        return Clear.create(scheduleId, levelId
+                , count);
     }
 
     public boolean isNotEmpty() {

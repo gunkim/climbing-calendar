@@ -17,7 +17,10 @@ spring:
     username: sa
     password:
   jpa:
-    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
   sql:
     init:
       mode: always
@@ -25,6 +28,10 @@ spring:
   h2:
     console:
       enabled: true
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
 ---
 spring:
   config:
@@ -36,6 +43,11 @@ spring:
     username: climbing
     password: 1234
   jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE

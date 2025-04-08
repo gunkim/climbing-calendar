@@ -10,12 +10,16 @@ import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 
 @Entity(name = "climbing_gym")
+@SQLRestriction("deleted_at is NULL")
+@SQLDelete(sql = "UPDATE climbing_gym SET deleted_at = NOW() WHERE id = ?")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ClimbingGymEntity {
     @Id

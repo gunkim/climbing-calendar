@@ -1,10 +1,11 @@
 package github.gunkim.climbingcalendar.api.climbinggym;
 
 import github.gunkim.climbingcalendar.api.AuthenticatedUser;
+import github.gunkim.climbingcalendar.api.climbinggym.model.response.GetChainClimbingGymResponse;
+import github.gunkim.climbingcalendar.api.climbinggym.model.response.GetClimbingGymOfLevelResponse;
+import github.gunkim.climbingcalendar.api.climbinggym.model.response.GetClimbingGymOfVisitAndClearCountResponse;
+import github.gunkim.climbingcalendar.api.climbinggym.model.response.GetClimbingGymResponse;
 import github.gunkim.climbingcalendar.api.climbinggym.request.GetClimbingGymOfVisitAndClearCountRequest;
-import github.gunkim.climbingcalendar.api.climbinggym.response.GetClimbingGymOfLevelResponse;
-import github.gunkim.climbingcalendar.api.climbinggym.response.GetClimbingGymOfVisitAndClearCountResponse;
-import github.gunkim.climbingcalendar.api.climbinggym.response.GetClimbingGymResponse;
 import github.gunkim.climbingcalendar.application.ClimbingGymQueryService;
 import github.gunkim.climbingcalendar.application.model.ClimbingGymOfVisitAndClearCountCriteria;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
@@ -27,6 +28,9 @@ interface ClimbingGymResource {
     @GetMapping("/count")
     List<GetClimbingGymOfVisitAndClearCountResponse> getClimbingGymOfVisitAndClearCounts(@AuthenticationPrincipal AuthenticatedUser authenticatedUser, @ModelAttribute
     GetClimbingGymOfVisitAndClearCountRequest getClimbingGymOfVisitAndClearCountRequest);
+
+    @GetMapping("/chain")
+    List<GetChainClimbingGymResponse> getChainClimbingGyms();
 }
 
 @RestController
@@ -50,10 +54,15 @@ public class ClimbingGymController implements ClimbingGymResource {
 
     @Override
     public List<GetClimbingGymOfVisitAndClearCountResponse> getClimbingGymOfVisitAndClearCounts(AuthenticatedUser authenticatedUser,
-                                                                                                GetClimbingGymOfVisitAndClearCountRequest getClimbingGymOfVisitAndClearCountRequest) {
+                                                                                                                                                        GetClimbingGymOfVisitAndClearCountRequest getClimbingGymOfVisitAndClearCountRequest) {
         return climbingGymQueryService.getClimbingGymOfVisitAndClearCounts(ClimbingGymOfVisitAndClearCountCriteria.of(authenticatedUser.userId(),
                         getClimbingGymOfVisitAndClearCountRequest.limit(), getClimbingGymOfVisitAndClearCountRequest.orderBy())).stream()
                 .map(GetClimbingGymOfVisitAndClearCountResponse::from)
                 .toList();
+    }
+
+    @Override
+    public List<GetChainClimbingGymResponse> getChainClimbingGyms() {
+        return List.of();
     }
 }

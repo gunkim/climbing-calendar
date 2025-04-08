@@ -1,6 +1,7 @@
 package github.gunkim.climbingcalendar.domain.schedule.domain;
 
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
+import github.gunkim.climbingcalendar.domain.schedule.exception.UnauthorizedScheduleException;
 import github.gunkim.climbingcalendar.domain.schedule.model.Schedule;
 import github.gunkim.climbingcalendar.domain.user.model.id.UserId;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -136,5 +138,32 @@ class ScheduleTest {
             );
         }).isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("Title cannot be null");
+    }
+
+    @Test
+    void 스케줄의_주인이_아니라면_예외가_발생한다() {
+        var schedule = Schedule.create(
+                UserId.from(1L),
+                ClimbingGymId.from(1L),
+                "title",
+                "description",
+                Instant.now()
+        );
+
+        assertThatThrownBy(() -> schedule.validateOwner(UserId.from(2L)))
+                .isInstanceOf(UnauthorizedScheduleException.class);
+    }
+
+    @Test
+    void 스케줄의_주인이라면_예외가_발생하지_않는다() {
+        var schedule = Schedule.create(
+                UserId.from(1L),
+                ClimbingGymId.from(1L),
+                "title",
+                "description",
+                Instant.now()
+        );
+
+        assertThatCode(() -> schedule.validateOwner(UserId.from(1L))).doesNotThrowAnyException();
     }
 }

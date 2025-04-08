@@ -1,7 +1,8 @@
 package github.gunkim.climbingcalendar.api.climbinggym;
 
-import github.gunkim.climbingcalendar.api.climbinggym.response.GetClimbingGymOfLevelResponse;
-import github.gunkim.climbingcalendar.api.climbinggym.response.GetClimbingGymResponse;
+import github.gunkim.climbingcalendar.api.climbinggym.model.response.GetChainClimbingGymResponse;
+import github.gunkim.climbingcalendar.api.climbinggym.model.response.GetClimbingGymOfLevelResponse;
+import github.gunkim.climbingcalendar.api.climbinggym.model.response.GetClimbingGymResponse;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;
 import github.gunkim.climbingcalendar.domain.climbinggym.service.GetClimbingGymService;
 import github.gunkim.climbingcalendar.domain.climbinggym.service.GetLevelService;
@@ -20,6 +21,9 @@ interface ClimbingGymResource {
 
     @GetMapping("/{id}/levels")
     List<GetClimbingGymOfLevelResponse> getClimbingGymOfLevels(@PathVariable long id);
+
+    @GetMapping("/chain")
+    List<GetChainClimbingGymResponse> getChainClimbingGyms();
 }
 
 @RestController
@@ -38,5 +42,10 @@ public class ClimbingGymController implements ClimbingGymResource {
         return getLevelService.getLevels(ClimbingGymId.from(id)).stream()
                 .map(GetClimbingGymOfLevelResponse::from)
                 .toList();
+    }
+
+    @Override
+    public List<GetChainClimbingGymResponse> getChainClimbingGyms() {
+        return List.of();
     }
 }

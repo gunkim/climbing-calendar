@@ -46,7 +46,9 @@ public class ClimbingGymQueryServiceImpl implements ClimbingGymQueryService {
     private OrderSpecifier eqOrderBy(String orderBy) {
         if (orderBy.equals("visit")) {
             return scheduleEntity.count().desc();
+        } else if (orderBy.equals("recent")) {
+            return scheduleEntity.scheduleDate.max().desc();
         }
-        return scheduleEntity.scheduleDate.max().desc();
+        return null;
     }
 }

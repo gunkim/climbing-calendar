@@ -105,7 +105,7 @@ class ClimbingGymControllerTest extends IntegrationTest {
     @DisplayName("[GET] /api/v1/climbing-gyms/count")
     class GetClimbingGymCountTests {
         @Test
-        @DisplayName("방문 및 클리어 통계 조회 - 기본 정렬")
+        @DisplayName("필터 조건이 없을 경우 사용자의 암장 별 방문 횟수와 클리어 횟수를 조회")
         void testGetClimbingGymOfVisitAndClearCounts() throws Exception {
             String token = createAccessToken(testUser);
 
@@ -126,7 +126,7 @@ class ClimbingGymControllerTest extends IntegrationTest {
         }
 
         @Test
-        @DisplayName("방문 및 클리어 통계 조회 - 클리어 기준 정렬")
+        @DisplayName("사용자의 암장 별 방문 횟수와 클리어 횟수를 조회 가장 최근에 방문한 암장 순으로 정렬")
         void testGetClimbingGymOfVisitAndClearCountsOrderByClear() throws Exception {
             String token = createAccessToken(testUser);
 
@@ -148,7 +148,7 @@ class ClimbingGymControllerTest extends IntegrationTest {
         }
 
         @Test
-        @DisplayName("방문 및 클리어 통계 조회 - 제한 설정")
+        @DisplayName("사용자의 암장 별 방문 횟수와 클리어 횟수를 조회 가장 많이 방문한 암장 순으로 정렬")
         void testGetClimbingGymOfVisitAndClearCountsWithLimit() throws Exception {
             String token = createAccessToken(testUser);
 

@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface ClimbingGymQueryService {
     List<ClimbingGymOfVisitAndClearCountResult> getClimbingGymOfVisitAndClearCounts(ClimbingGymOfVisitAndClearCountCriteria criteria);
-
 }

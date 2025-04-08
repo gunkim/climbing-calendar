@@ -54,7 +54,7 @@ public class ClimbingGymController implements ClimbingGymResource {
 
     @Override
     public List<GetClimbingGymOfVisitAndClearCountResponse> getClimbingGymOfVisitAndClearCounts(AuthenticatedUser authenticatedUser,
-                                                                                                                                                        GetClimbingGymOfVisitAndClearCountRequest getClimbingGymOfVisitAndClearCountRequest) {
+                                                                                                GetClimbingGymOfVisitAndClearCountRequest getClimbingGymOfVisitAndClearCountRequest) {
         return climbingGymQueryService.getClimbingGymOfVisitAndClearCounts(ClimbingGymOfVisitAndClearCountCriteria.of(authenticatedUser.userId(),
                         getClimbingGymOfVisitAndClearCountRequest.limit(), getClimbingGymOfVisitAndClearCountRequest.orderBy())).stream()
                 .map(GetClimbingGymOfVisitAndClearCountResponse::from)

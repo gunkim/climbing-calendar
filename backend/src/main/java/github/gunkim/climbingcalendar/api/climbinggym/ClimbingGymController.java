@@ -5,7 +5,7 @@ import github.gunkim.climbingcalendar.api.climbinggym.model.response.GetChainCli
 import github.gunkim.climbingcalendar.api.climbinggym.model.response.GetClimbingGymOfLevelResponse;
 import github.gunkim.climbingcalendar.api.climbinggym.model.response.GetClimbingGymOfVisitAndClearCountResponse;
 import github.gunkim.climbingcalendar.api.climbinggym.model.response.GetClimbingGymResponse;
-import github.gunkim.climbingcalendar.api.climbinggym.request.GetClimbingGymOfVisitAndClearCountRequest;
+import github.gunkim.climbingcalendar.api.climbinggym.model.request.GetClimbingGymOfVisitAndClearCountRequest;
 import github.gunkim.climbingcalendar.application.ClimbingGymQueryService;
 import github.gunkim.climbingcalendar.application.model.ClimbingGymOfVisitAndClearCountCriteria;
 import github.gunkim.climbingcalendar.domain.climbinggym.model.id.ClimbingGymId;

@@ -1,4 +1,4 @@
-package github.gunkim.climbingcalendar.api.climbinggym.request;
+package github.gunkim.climbingcalendar.api.climbinggym.model.request;
 
 public record GetClimbingGymOfVisitAndClearCountRequest(
         int limit,
